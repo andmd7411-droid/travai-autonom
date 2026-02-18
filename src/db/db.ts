@@ -13,7 +13,7 @@ export class AutonomousWorkerDB extends Dexie {
 
     constructor() {
         super('AutonomousWorkerDB');
-        this.version(1).stores({
+        this.version(2).stores({
             workSessions: '++id, startTime, endTime',
             expenses: '++id, date, category',
             documents: '++id, date, type, [tags]', // Multi-entry index for tags
