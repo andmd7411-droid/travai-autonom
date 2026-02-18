@@ -242,6 +242,11 @@ const SettingsPage = () => {
                     <span>{message.text}</span>
                 </div>
             )}
+            {/* App Version */}
+            <div className="app-version glass-panel" style={{ textAlign: 'center', marginTop: '2rem', padding: '1rem', color: 'var(--color-text-secondary)', fontSize: '0.8rem' }}>
+                <p>App Version: 0.1.4</p>
+                <p>Build Time: {new Date().toLocaleString()}</p>
+            </div>
         </div>
     );
 };
