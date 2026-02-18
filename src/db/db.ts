@@ -1,5 +1,5 @@
 import Dexie, { type Table } from 'dexie';
-import type { WorkSession, Expense, DocumentItem, Invoice, Client, MileageEntry, Job, Project } from '../types';
+import type { WorkSession, Expense, DocumentItem, Invoice, Client, MileageEntry, Job, Project, RecurringItem } from '../types';
 
 export class AutonomousWorkerDB extends Dexie {
     workSessions!: Table<WorkSession>;
@@ -10,18 +10,20 @@ export class AutonomousWorkerDB extends Dexie {
     mileage!: Table<MileageEntry>;
     jobs!: Table<Job>;
     projects!: Table<Project>;
+    recurringItems!: Table<RecurringItem>;
 
     constructor() {
         super('AutonomousWorkerDB');
-        this.version(2).stores({
+        this.version(3).stores({
             workSessions: '++id, startTime, endTime',
             expenses: '++id, date, category',
-            documents: '++id, date, type, [tags]', // Multi-entry index for tags
-            invoices: '++id, date, type',
+            documents: '++id, date, type, [tags]',
+            invoices: '++id, date, type, status, projectId, clientId, invoiceNumber',
             clients: '++id, name, email',
             mileage: '++id, date',
             jobs: '++id, date, status',
-            projects: '++id, name, status, clientId'
+            projects: '++id, name, status, clientId',
+            recurringItems: '++id, nextDate, active'
         });
     }
 }

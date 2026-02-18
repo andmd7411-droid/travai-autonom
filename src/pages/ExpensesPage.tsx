@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { createWorker } from 'tesseract.js';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
-import { Plus, Trash2, Tag, DollarSign, Camera, Paperclip } from 'lucide-react';
+import '../styles/ExpensesPage.css';
+import { Plus, Trash2, Tag, DollarSign, Camera, Paperclip, RefreshCw } from 'lucide-react';
 import { formatCurrency } from '../utils/format';
 import { useLanguage } from '../context/LanguageContext';
 import type { Expense } from '../types';
@@ -19,22 +21,53 @@ const ExpensesPage: React.FC = () => {
     const [receiptPhoto, setReceiptPhoto] = useState<Blob | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [viewingReceipt, setViewingReceipt] = useState<string | null>(null); // URL for modal
+    const [isScanning, setIsScanning] = useState(false);
 
     const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-    const expenses = useLiveQuery(() =>
-        db.expenses.orderBy('date').reverse().toArray()
-    );
+    const handleOCR = async (file: File) => {
+        setIsScanning(true);
+        try {
+            const worker = await createWorker('eng');
+            const { data: { text } } = await worker.recognize(file);
+            console.log('OCR text:', text);
 
-    const projects = useLiveQuery(() => db.projects.where('status').equals('active').toArray());
+            const amountMatches = text.match(/\d+[.,]\d{2}/g);
+            if (amountMatches) {
+                const amounts = amountMatches.map(a => parseFloat(a.replace(',', '.')));
+                const maxAmount = Math.max(...amounts);
+                if (!isNaN(maxAmount)) {
+                    setAmount(maxAmount.toString());
+                }
+            }
+
+            const lines = text.split('\n').filter(l => l.trim().length > 3);
+            if (lines.length > 0) {
+                setDescription(lines[0].trim().slice(0, 50));
+            }
+
+            await worker.terminate();
+        } catch (error) {
+            console.error('OCR failed:', error);
+        } finally {
+            setIsScanning(false);
+        }
+    };
 
     const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
             setReceiptPhoto(file);
             setPreviewUrl(URL.createObjectURL(file));
+            handleOCR(file);
         }
     };
+
+    const expenses = useLiveQuery(() =>
+        db.expenses.orderBy('date').reverse().toArray()
+    );
+
+    const projects = useLiveQuery(() => db.projects.where('status').equals('active').toArray());
 
     const handleAdd = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -137,27 +170,28 @@ const ExpensesPage: React.FC = () => {
                     </div>
 
                     {/* Camera / Receipt Upload */}
-                    <div className="form-group" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+                    <div className="form-group receipt-upload-group">
                         <input
+                            id="receipt-upload"
                             type="file"
                             accept="image/*"
-                            capture="environment"
                             ref={fileInputRef}
                             onChange={handleFileSelect}
-                            style={{ display: 'none' }}
+                            className="hidden-file-input"
+                            title="Upload Receipt"
                         />
                         <button
                             type="button"
-                            className="img-btn"
+                            className={`img-btn ${isScanning ? 'scanning' : ''}`}
                             onClick={() => fileInputRef.current?.click()}
-                            style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--color-border)', background: 'rgba(255,255,255,0.05)', color: 'var(--color-text)', cursor: 'pointer' }}
+                            disabled={isScanning}
                         >
-                            <Camera size={18} />
-                            <span>{previewUrl ? 'Change Photo' : 'Add Receipt Photo'}</span>
+                            {isScanning ? <RefreshCw className="spin" size={18} /> : <Camera size={18} />}
+                            <span>{isScanning ? 'Scanning...' : (previewUrl ? 'Change Photo' : 'Add Receipt Photo')}</span>
                         </button>
                         {previewUrl && (
-                            <div style={{ marginTop: '10px', width: '100%', maxHeight: '150px', overflow: 'hidden', borderRadius: '8px' }}>
-                                <img src={previewUrl} alt="Preview" style={{ width: '100%', objectFit: 'cover' }} />
+                            <div className="image-preview-container">
+                                <img src={previewUrl} alt="Preview" className="image-preview-item" />
                             </div>
                         )}
                     </div>
@@ -179,7 +213,7 @@ const ExpensesPage: React.FC = () => {
                                     {expense.receiptPhoto && (
                                         <button
                                             onClick={() => setViewingReceipt(URL.createObjectURL(expense.receiptPhoto!))}
-                                            style={{ marginLeft: '8px', background: 'none', border: 'none', cursor: 'pointer', padding: 0, verticalAlign: 'middle' }}
+                                            className="receipt-view-btn"
                                             title="View Receipt"
                                         >
                                             <Paperclip size={14} color="var(--color-primary)" />
@@ -203,10 +237,10 @@ const ExpensesPage: React.FC = () => {
             {/* Receipt Modal */}
             {viewingReceipt && (
                 <div
-                    style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.9)', zIndex: 1000, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}
+                    className="receipt-modal-overlay"
                     onClick={() => setViewingReceipt(null)}
                 >
-                    <img src={viewingReceipt} alt="Receipt" style={{ maxWidth: '100%', maxHeight: '100%', borderRadius: '8px' }} />
+                    <img src={viewingReceipt} alt="Receipt" className="receipt-modal-image" />
                 </div>
             )}
         </div>

@@ -112,7 +112,7 @@ const FinancePage: React.FC = () => {
         const filename = `${type}_${dateStr}`;
         const title = `${t[type]} Report - ${dateStr}`;
 
-        let data: any[] = [];
+        let data: unknown[] = [];
         switch (type) {
             case 'work': data = sessions || []; break;
             case 'expenses': data = expenses || []; break;
@@ -193,10 +193,10 @@ const FinancePage: React.FC = () => {
                 </div>
                 <div className="card glass-panel">
                     <div className="card-label">Top Client</div>
-                    <div className="card-value" style={{ fontSize: '1.2rem' }}>
+                    <div className="card-value top-client-name">
                         {stats.topClient.name}
                     </div>
-                    <div className="card-subvalue" style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                    <div className="card-subvalue top-client-income">
                         {formatCurrency(stats.topClient.income)}
                     </div>
                 </div>

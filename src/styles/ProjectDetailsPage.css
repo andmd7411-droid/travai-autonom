@@ -1,152 +1,31 @@
-.project-details-page .page-header h2 {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.project-details-page .color-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    display: inline-block;
-}
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.stat-card {
-    padding: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.stat-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-}
-
-.stat-icon.income {
-    color: #4ade80;
-    background: rgba(74, 222, 128, 0.1);
-}
-
-.stat-icon.expense {
-    color: #f87171;
-    background: rgba(248, 113, 113, 0.1);
-}
-
-.stat-icon.profit {
-    color: #60a5fa;
-    background: rgba(96, 165, 250, 0.1);
-}
-
-.stat-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.stat-label {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-}
-
-.stat-value {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: white;
-}
-
-.charts-section {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-@media (max-width: 768px) {
-    .charts-section {
-        grid-template-columns: 1fr;
-    }
-}
-
-.chart-card {
-    padding: 1.5rem;
-    height: 350px;
-}
-
-.chart-card h3 {
-    margin-bottom: 1rem;
-    color: var(--color-text-secondary);
-    font-size: 1.1rem;
-}
-
-.lists-container {
-    margin-top: 2rem;
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: 1fr 1fr;
-}
-
-@media (max-width: 768px) {
-    .lists-container {
-        grid-template-columns: 1fr;
-    }
-}
-
-.list-section {
-    padding: 1.5rem;
-}
-
-.list-section h3 {
-    margin-bottom: 1rem;
-    color: var(--color-text-secondary);
-}
-
-.list-item {
+.project-details-page-header {
     display: flex;
     justify-content: space-between;
-    padding: 0.8rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--color-text-primary);
+    align-items: center;
 }
 
-.list-item:last-child {
-    border-bottom: none;
-}
-
-.empty-text {
-    color: var(--color-text-secondary);
-    font-style: italic;
-    text-align: center;
-    padding: 2rem;
-}
-
-.back-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: white;
+.project-details-page-header .header-left {
     display: flex;
     align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s;
+    gap: 1rem;
 }
 
-.back-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateX(-2px);
+.project-details-page-header .invoice-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    background: var(--color-primary);
+    color: white;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.project-details-page-header .invoice-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    filter: brightness(1.1);
 }

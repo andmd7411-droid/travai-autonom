@@ -1,11 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import { Plus, Edit2, Trash2, LayoutGrid, List as ListIcon } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { formatCurrency } from '../utils/format';
 import type { Project } from '../types';
-import '../styles/global.css'; // Utilizing global styles for glassmorphism
+import '../styles/global.css';
+import '../styles/ProjectsPage.css';
+
+interface ProjectCardProps {
+    project: Project;
+    stats: { hours: number; income: number };
+    clientName?: string;
+    onEdit: (p: Project) => void;
+    onDelete: (id: number) => void;
+}
+
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, stats, clientName, onEdit, onDelete }) => {
+    const cardRef = useRef<HTMLDivElement>(null);
+    const { t } = useLanguage();
+
+    useEffect(() => {
+        if (cardRef.current) {
+            cardRef.current.style.setProperty('--project-color', project.color);
+        }
+    }, [project.color]);
+
+    return (
+        <div ref={cardRef} className="project-card glass-panel dynamic-border">
+            <div className="card-header clickable" onClick={() => window.location.hash = `#/projects/${project.id}`}>
+                <h3 className="no-pointer-events">{project.name}</h3>
+                <span className={`status-badge ${project.status}`}>{project.status}</span>
+            </div>
+
+            {clientName && <p className="client-name">{clientName}</p>}
+
+            <div className="card-stats">
+                <div className="stat">
+                    <span className="label">{t.hours || "Hours"}</span>
+                    <span className="value">{stats.hours.toFixed(1)}h</span>
+                </div>
+                <div className="stat">
+                    <span className="label">{t.income || "Income"}</span>
+                    <span className="value">{formatCurrency(stats.income)}</span>
+                </div>
+            </div>
+
+            <div className="card-actions">
+                <button onClick={() => onEdit(project)} className="action-btn edit" title={t.editProject} aria-label={t.editProject}>
+                    <Edit2 size={16} />
+                </button>
+                <button onClick={() => onDelete(project.id!)} className="action-btn delete" title={t.confirmDeleteProject} aria-label={t.confirmDeleteProject}>
+                    <Trash2 size={16} />
+                </button>
+            </div>
+        </div>
+    );
+};
 
 const ProjectsPage: React.FC = () => {
     const { t } = useLanguage();
@@ -87,12 +138,16 @@ const ProjectsPage: React.FC = () => {
                         <button
                             className={`toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
                             onClick={() => setViewMode('grid')}
+                            title="Grid View"
+                            aria-label="Grid View"
                         >
                             <LayoutGrid size={18} />
                         </button>
                         <button
                             className={`toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
                             onClick={() => setViewMode('list')}
+                            title="List View"
+                            aria-label="List View"
                         >
                             <ListIcon size={18} />
                         </button>
@@ -109,34 +164,14 @@ const ProjectsPage: React.FC = () => {
                     const clientName = clients?.find(c => c.id === project.clientId)?.name;
 
                     return (
-                        <div key={project.id} className="project-card glass-panel" style={{ borderLeft: `4px solid ${project.color}` }}>
-                            <div className="card-header clickable" onClick={() => window.location.hash = `#/projects/${project.id}`}>
-                                <h3 className="no-pointer-events">{project.name}</h3>
-                                <span className={`status-badge ${project.status}`}>{project.status}</span>
-                            </div>
-
-                            {clientName && <p className="client-name">{clientName}</p>}
-
-                            <div className="card-stats">
-                                <div className="stat">
-                                    <span className="label">{t.hours || "Hours"}</span>
-                                    <span className="value">{stats.hours.toFixed(1)}h</span>
-                                </div>
-                                <div className="stat">
-                                    <span className="label">{t.income || "Income"}</span>
-                                    <span className="value">{formatCurrency(stats.income)}</span>
-                                </div>
-                            </div>
-
-                            <div className="card-actions">
-                                <button onClick={() => handleEdit(project)} className="action-btn edit">
-                                    <Edit2 size={16} />
-                                </button>
-                                <button onClick={() => handleDelete(project.id!)} className="action-btn delete">
-                                    <Trash2 size={16} />
-                                </button>
-                            </div>
-                        </div>
+                        <ProjectCard
+                            key={project.id}
+                            project={project}
+                            stats={stats}
+                            clientName={clientName}
+                            onEdit={handleEdit}
+                            onDelete={handleDelete}
+                        />
                     );
                 })}
             </div>
@@ -176,7 +211,7 @@ const ProjectsPage: React.FC = () => {
                                 <label>{t.status || "Status"}</label>
                                 <select
                                     value={formData.status}
-                                    onChange={e => setFormData({ ...formData, status: e.target.value as any })}
+                                    onChange={e => setFormData({ ...formData, status: e.target.value as Project['status'] })}
                                     title={t.status}
                                 >
                                     <option value="active">Active</option>

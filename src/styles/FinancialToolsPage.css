@@ -1,0 +1,88 @@
+.fin-tools-page .tools-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.fin-tools-page .tool-card {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.fin-tools-page .tool-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.fin-tools-page .tool-header h3 {
+    margin: 0;
+    flex: 1;
+}
+
+.fin-tools-page .icon-tax {
+    color: #10b981;
+}
+
+.fin-tools-page .icon-recurring {
+    color: #3b82f6;
+}
+
+.fin-tools-page .icon-ocr {
+    color: #8b5cf6;
+}
+
+.fin-tools-page .stat-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.fin-tools-page .stat-row.highlight {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 700;
+    color: var(--color-secondary);
+}
+
+.fin-tools-page .tool-note {
+    font-size: 0.8rem;
+    opacity: 0.6;
+    margin-top: 1rem;
+}
+
+.fin-tools-page .action-btn {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.fin-tools-page .action-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.fin-tools-page .icon-btn {
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.fin-tools-page .icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}

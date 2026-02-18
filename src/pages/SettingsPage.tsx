@@ -5,7 +5,7 @@ import { exportData, importData } from '../utils/backup';
 import '../styles/SettingsPage.css';
 
 const SettingsPage = () => {
-    const { t } = useLanguage();
+    const { t, language, setLanguage } = useLanguage();
 
     const [companyProfile, setCompanyProfile] = useState(() => {
         const saved = localStorage.getItem('companyProfile');
@@ -91,6 +91,27 @@ const SettingsPage = () => {
             <h2>{t.settings}</h2>
 
             <div className="settings-grid">
+                {/* Language Section */}
+                <div className="settings-section glass-panel">
+                    <div className="section-header">
+                        <Database size={24} className="icon-data" />
+                        <h3>{t.settings}</h3>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="lang-select">Language / Limbă / Langue</label>
+                        <select
+                            id="lang-select"
+                            value={language}
+                            onChange={(e) => setLanguage(e.target.value as 'en' | 'fr')}
+                            className="lang-select"
+                            title="Select Language"
+                        >
+                            <option value="en">English</option>
+                            <option value="fr">Français</option>
+                        </select>
+                    </div>
+                </div>
+
                 {/* Security Section */}
                 <div className="settings-section glass-panel">
                     <div className="section-header">
@@ -164,43 +185,58 @@ const SettingsPage = () => {
                     </div>
                     <form onSubmit={handleSaveProfile} className="profile-form">
                         <div className="form-group">
-                            <label>{t.profileName}</label>
+                            <label htmlFor="company-name">{t.profileName}</label>
                             <input
+                                id="company-name"
                                 type="text"
                                 value={companyProfile.name}
                                 onChange={e => setCompanyProfile({ ...companyProfile, name: e.target.value })}
+                                placeholder={t.profileName}
+                                title={t.profileName}
                             />
                         </div>
                         <div className="form-group">
-                            <label>{t.profileAddress}</label>
+                            <label htmlFor="company-address">{t.profileAddress}</label>
                             <input
+                                id="company-address"
                                 type="text"
                                 value={companyProfile.address}
                                 onChange={e => setCompanyProfile({ ...companyProfile, address: e.target.value })}
+                                placeholder={t.profileAddress}
+                                title={t.profileAddress}
                             />
                         </div>
                         <div className="form-group">
-                            <label>{t.profilePhone}</label>
+                            <label htmlFor="company-phone">{t.profilePhone}</label>
                             <input
+                                id="company-phone"
                                 type="text"
                                 value={companyProfile.phone}
                                 onChange={e => setCompanyProfile({ ...companyProfile, phone: e.target.value })}
+                                placeholder={t.profilePhone}
+                                title={t.profilePhone}
                             />
                         </div>
                         <div className="form-group">
-                            <label>{t.profileEmail}</label>
+                            <label htmlFor="company-email">{t.profileEmail}</label>
                             <input
+                                id="company-email"
                                 type="email"
                                 value={companyProfile.email}
                                 onChange={e => setCompanyProfile({ ...companyProfile, email: e.target.value })}
+                                placeholder={t.profileEmail}
+                                title={t.profileEmail}
                             />
                         </div>
                         <div className="form-group">
-                            <label>{t.profileTaxId}</label>
+                            <label htmlFor="company-taxid">{t.profileTaxId}</label>
                             <input
+                                id="company-taxid"
                                 type="text"
                                 value={companyProfile.taxId}
                                 onChange={e => setCompanyProfile({ ...companyProfile, taxId: e.target.value })}
+                                placeholder={t.profileTaxId}
+                                title={t.profileTaxId}
                             />
                         </div>
                         <button type="submit" className="save-btn">
@@ -243,7 +279,7 @@ const SettingsPage = () => {
                 </div>
             )}
             {/* App Version */}
-            <div className="app-version glass-panel" style={{ textAlign: 'center', marginTop: '2rem', padding: '1rem', color: 'var(--color-text-secondary)', fontSize: '0.8rem' }}>
+            <div className="app-version glass-panel">
                 <p>App Version: 0.1.5</p>
                 <p>Build Time: {new Date().toLocaleString()}</p>
             </div>

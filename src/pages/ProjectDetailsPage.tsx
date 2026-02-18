@@ -1,13 +1,29 @@
-import React, { useMemo } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
-import { ArrowLeft, Clock, DollarSign, PieChart as PieChartIcon } from 'lucide-react';
+import { ArrowLeft, Clock, DollarSign, PieChart as PieChartIcon, FileText } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { formatCurrency, formatDuration } from '../utils/format';
 import { BarChart, PieChart } from '../components/AnalyticsCharts';
 import '../styles/global.css';
 import '../styles/ProjectDetailsPage.css';
+
+interface ProjectColorDotProps {
+    color: string;
+}
+
+const ProjectColorDot: React.FC<ProjectColorDotProps> = ({ color }) => {
+    const dotRef = useRef<HTMLSpanElement>(null);
+
+    useEffect(() => {
+        if (dotRef.current) {
+            dotRef.current.style.setProperty('--dot-bg', color);
+        }
+    }, [color]);
+
+    return <span ref={dotRef} className="color-dot"></span>;
+};
 
 const ProjectDetailsPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -97,17 +113,38 @@ const ProjectDetailsPage: React.FC = () => {
 
     return (
         <div className="page-container project-details-page">
-            <div className="page-header">
-                <button onClick={() => navigate(-1)} className="back-btn" aria-label={t.backToHome}>
-                    <ArrowLeft size={24} />
-                </button>
-                <div>
-                    <h2>
-                        <span className="color-dot" style={{ backgroundColor: project.color }}></span>
-                        {project.name}
-                    </h2>
-                    <p className="subtitle">{client?.name || t.notSpecified} • {project.status}</p>
+            <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <button onClick={() => navigate(-1)} className="back-btn" aria-label={t.backToHome}>
+                        <ArrowLeft size={24} />
+                    </button>
+                    <div>
+                        <h2>
+                            <ProjectColorDot color={project.color} />
+                            {project.name}
+                        </h2>
+                        <p className="subtitle">{client?.name || t.notSpecified} • {project.status}</p>
+                    </div>
                 </div>
+                <button
+                    className="invoice-btn glass-panel"
+                    onClick={() => navigate(`/invoices/new?projectId=${id}`)}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: '10px 20px',
+                        borderRadius: '12px',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        cursor: 'pointer',
+                        background: 'var(--color-primary)',
+                        color: 'white',
+                        fontWeight: 600
+                    }}
+                >
+                    <FileText size={18} />
+                    <span>{t.createInvoice}</span>
+                </button>
             </div>
 
             <div className="stats-grid">
@@ -136,7 +173,7 @@ const ProjectDetailsPage: React.FC = () => {
                     <div className="stat-icon profit"><PieChartIcon size={24} /></div>
                     <div className="stat-info">
                         <span className="stat-label">{t.netProfit}</span>
-                        <span className="stat-value" style={{ color: stats.net >= 0 ? '#4ade80' : '#f87171' }}>
+                        <span className={`stat-value ${stats.net >= 0 ? 'positive' : 'negative'}`}>
                             {formatCurrency(stats.net)}
                         </span>
                     </div>

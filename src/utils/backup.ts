@@ -62,27 +62,27 @@ export const importData = async (file: File) => {
                     await db.jobs.clear();
 
                     // Import new data
-                    if (data.workSessions?.length) await db.workSessions.bulkAdd(data.workSessions.map((i: any) => ({
+                    if (data.workSessions?.length) await db.workSessions.bulkAdd(data.workSessions.map((i: { startTime: string | number | Date; endTime?: string | number | Date }) => ({
                         ...i,
                         startTime: new Date(i.startTime),
                         endTime: i.endTime ? new Date(i.endTime) : undefined // Handle null/undefined dates
                     })));
 
-                    if (data.expenses?.length) await db.expenses.bulkAdd(data.expenses.map((i: any) => ({
+                    if (data.expenses?.length) await db.expenses.bulkAdd(data.expenses.map((i: { date: string | number | Date }) => ({
                         ...i,
                         date: new Date(i.date)
                     })));
 
                     if (data.clients?.length) await db.clients.bulkAdd(data.clients);
 
-                    if (data.mileage?.length) await db.mileage.bulkAdd(data.mileage.map((i: any) => ({
+                    if (data.mileage?.length) await db.mileage.bulkAdd(data.mileage.map((i: { date: string | number | Date; startTime?: string | number | Date; endTime?: string | number | Date }) => ({
                         ...i,
                         date: new Date(i.date),
                         startTime: i.startTime ? new Date(i.startTime) : undefined,
                         endTime: i.endTime ? new Date(i.endTime) : undefined
                     })));
 
-                    if (data.jobs?.length) await db.jobs.bulkAdd(data.jobs.map((i: any) => ({
+                    if (data.jobs?.length) await db.jobs.bulkAdd(data.jobs.map((i: { date: string | number | Date }) => ({
                         ...i,
                         date: new Date(i.date)
                     })));

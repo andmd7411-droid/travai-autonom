@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import { Plus, Search, Edit2, Trash2, MapPin, Calendar, Navigation, Play, Square } from 'lucide-react';
@@ -19,9 +19,34 @@ const MileagePage = () => {
     const [editingId, setEditingId] = useState<number | null>(null);
 
     // Tracking State
-    const [isTracking, setIsTracking] = useState(false);
-    const [tripStartTime, setTripStartTime] = useState<Date | null>(null);
-    const [tripStartPos, setTripStartPos] = useState<{ lat: number; lng: number } | null>(null);
+    const [isTracking, setIsTracking] = useState(() => {
+        const saved = localStorage.getItem('mileageTracking');
+        return !!saved;
+    });
+    const [tripStartTime, setTripStartTime] = useState<Date | null>(() => {
+        const saved = localStorage.getItem('mileageTracking');
+        if (saved) {
+            try {
+                const data = JSON.parse(saved);
+                return new Date(data.startTime);
+            } catch {
+                return null;
+            }
+        }
+        return null;
+    });
+    const [tripStartPos, setTripStartPos] = useState<{ lat: number; lng: number } | null>(() => {
+        const saved = localStorage.getItem('mileageTracking');
+        if (saved) {
+            try {
+                const data = JSON.parse(saved);
+                return data.startPos;
+            } catch {
+                return null;
+            }
+        }
+        return null;
+    });
     const [elapsed, setElapsed] = useState(0);
 
     // Form State
@@ -30,17 +55,6 @@ const MileagePage = () => {
     const [endAddress, setEndAddress] = useState('');
     const [distance, setDistance] = useState('');
     const [purpose, setPurpose] = useState('');
-
-    // Restore tracking state
-    useEffect(() => {
-        const savedTracking = localStorage.getItem('mileageTracking');
-        if (savedTracking) {
-            const data = JSON.parse(savedTracking);
-            setIsTracking(true);
-            setTripStartTime(new Date(data.startTime));
-            setTripStartPos(data.startPos);
-        }
-    }, []);
 
     useInterval(() => {
         if (isTracking && tripStartTime) {

@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import { Upload, File, Trash2, FileText } from 'lucide-react';
-import InvoiceGenerator from '../components/InvoiceGenerator';
+import InvoiceGenerator from './InvoiceGenerator';
 import { useLanguage } from '../context/LanguageContext';
 import type { DocumentItem } from '../types';
 import '../styles/DocumentsPage.css';

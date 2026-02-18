@@ -44,11 +44,41 @@ export interface DocumentItem {
 
 export interface Invoice {
     id?: number;
+    invoiceNumber: string;
     date: Date;
+    dueDate?: Date;
     type: 'invoice' | 'quote';
+    status: 'draft' | 'sent' | 'paid' | 'overdue' | 'cancelled';
+    clientId?: number;
     clientName: string;
+    projectId?: number;
+    items: {
+        description: string;
+        quantity: number;
+        price: number;
+    }[];
+    totals: {
+        subtotal: number;
+        tps?: number;
+        tvq?: number;
+        total: number;
+    };
+    notes?: string;
+    fileBlob?: Blob;
+}
+
+export interface RecurringItem {
+    id?: number;
+    title: string;
+    type: 'expense' | 'income';
     amount: number;
-    fileBlob?: Blob; // If we save the PDF
+    category: string;
+    frequency: 'weekly' | 'monthly' | 'yearly';
+    startDate: Date;
+    nextDate: Date;
+    lastGeneratedDate?: Date;
+    projectId?: number;
+    active: boolean;
 }
 
 export interface Client {

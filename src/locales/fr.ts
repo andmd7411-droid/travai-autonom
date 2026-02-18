@@ -5,6 +5,8 @@ export const fr = {
     documents: 'Documents',
     finance: 'Finances',
     projects: 'Projets',
+    invoices: 'Factures',
+    financialTools: 'Outils Financiers',
     backToHome: 'Retour à l\'Accueil',
 
     // Projects Page
@@ -82,7 +84,31 @@ export const fr = {
     print: 'Imprimer / PDF',
     backToDocs: 'Retour aux Documents',
     addItem: 'Ajouter Article',
+    item: 'Article',
+    items: 'Articles',
     thankYou: 'Merci de votre confiance !',
+    invoiceStatus: {
+        draft: 'Brouillon',
+        sent: 'Envoyée',
+        paid: 'Payée',
+        overdue: 'Retard',
+        cancelled: 'Annulée'
+    },
+    dueDate: 'Date d\'échéance',
+    totalAmount: 'Montant Total',
+    noInvoicesFound: 'Aucune facture trouvée.',
+
+    // Financial Tools
+    taxEstimation: 'Estimation des Taxes',
+    recurringItems: 'Éléments Récurrents',
+    ocrScanning: 'Numérisation OCR',
+    estimatedTax: 'Taxe Estimée',
+    nextOccurrence: 'Prochaine Occurence',
+    addRecurring: 'Ajouter Élément Récurrent',
+    frequency: 'Fréquence',
+    weekly: 'Hebdomadaire',
+    monthly: 'Mensuel',
+    yearly: 'Annuel',
 
     // Mileage Page
     mileage: 'Journal Kilométrique',

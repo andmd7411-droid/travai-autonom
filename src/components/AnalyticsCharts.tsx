@@ -1,7 +1,24 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { formatCurrency } from '../utils/format';
 // useLanguage is not used in AnalyticsCharts, removing it
 // import { useLanguage } from '../context/LanguageContext';
+import '../styles/AnalyticsCharts.css';
+
+interface LegendDotProps {
+    color: string;
+}
+
+const LegendDot: React.FC<LegendDotProps> = ({ color }) => {
+    const dotRef = useRef<HTMLSpanElement>(null);
+
+    useEffect(() => {
+        if (dotRef.current) {
+            dotRef.current.style.setProperty('--dot-color', color);
+        }
+    }, [color]);
+
+    return <span ref={dotRef} className="dot"></span>;
+};
 
 // --- Types ---
 export interface MonthlyData {
@@ -54,12 +71,12 @@ export const BarChart: React.FC<BarChartProps> = ({ data }) => {
                         <g key={i} className="bar-group">
                             {/* Income Bar */}
                             <foreignObject x={x} y={height - padding - incomeH} width={barWidth} height={incomeH} className="bar-fo">
-                                <div className="bar income-bar" style={{ height: '100%' }} title={`Income: ${formatCurrency(d.income)}`} />
+                                <div className="bar income-bar full-height" title={`Income: ${formatCurrency(d.income)}`} />
                             </foreignObject>
 
                             {/* Expense Bar */}
                             <foreignObject x={x + barWidth} y={height - padding - expenseH} width={barWidth} height={expenseH} className="bar-fo">
-                                <div className="bar expense-bar" style={{ height: '100%' }} title={`Expense: ${formatCurrency(d.expense)}`} />
+                                <div className="bar expense-bar full-height" title={`Expense: ${formatCurrency(d.expense)}`} />
                             </foreignObject>
 
                             {/* Label */}
@@ -133,7 +150,7 @@ export const PieChart: React.FC<PieChartProps> = ({ data }) => {
             <div className="chart-legend vertical">
                 {data.map((d, i) => (
                     <div key={i} className="legend-item">
-                        <span className="dot" style={{ backgroundColor: d.color }}></span>
+                        <LegendDot color={d.color} />
                         <span className="legend-text">{d.category}</span>
                         <span className="legend-value">{d.percentage.toFixed(0)}%</span>
                     </div>

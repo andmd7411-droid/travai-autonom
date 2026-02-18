@@ -79,3 +79,16 @@ textarea,
 select {
   font-family: inherit;
 }
+
+/* Dynamic Styling Utilities */
+.dynamic-border {
+  border-left: 4px solid var(--project-color) !important;
+}
+
+.project-tag {
+  color: var(--tag-color) !important;
+}
+
+.project-dot {
+  background-color: var(--dot-color) !important;
+}

@@ -71,3 +71,11 @@
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(var(--color-primary-rgb), 0.3);
 }
+
+.app-version {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1rem;
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+}

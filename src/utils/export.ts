@@ -2,17 +2,17 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { formatCurrency } from './format';
 
-export const exportToCSV = (data: any[], filename: string) => {
+export const exportToCSV = (data: unknown[], filename: string) => {
     if (!data || data.length === 0) {
         alert('No data to export');
         return;
     }
 
-    const headers = Object.keys(data[0]);
+    const headers = Object.keys(data[0] as object);
     const csvContent = [
         headers.join(','),
         ...data.map(row => headers.map(header => {
-            const value = row[header];
+            const value = (row as Record<string, unknown>)[header];
             if (value instanceof Date) {
                 return value.toISOString();
             }
@@ -37,7 +37,7 @@ export const exportToCSV = (data: any[], filename: string) => {
     }
 };
 
-export const exportToPDF = (data: any[], filename: string, title: string, type: 'work' | 'expenses' | 'mileage' | 'clients') => {
+export const exportToPDF = (data: unknown[], filename: string, title: string, type: 'work' | 'expenses' | 'mileage' | 'clients') => {
     if (!data || data.length === 0) {
         alert('No data to export');
         return;
@@ -52,45 +52,45 @@ export const exportToPDF = (data: any[], filename: string, title: string, type: 
     doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
 
     let head: string[][] = [];
-    let body: any[][] = [];
+    let body: (string | number)[][] = [];
 
     switch (type) {
         case 'work':
             head = [['Date', 'Start Time', 'End Time', 'Duration (h)', 'Earned']];
-            body = data.map(item => [
-                new Date(item.startTime).toLocaleDateString(),
-                new Date(item.startTime).toLocaleTimeString(),
-                item.endTime ? new Date(item.endTime).toLocaleTimeString() : '-',
-                item.duration ? (item.duration / 3600000).toFixed(2) : '-',
-                formatCurrency(item.totalEarned || 0)
+            body = (data as Record<string, unknown>[]).map(item => [
+                new Date(item.startTime as string).toLocaleDateString(),
+                new Date(item.startTime as string).toLocaleTimeString(),
+                item.endTime ? new Date(item.endTime as string).toLocaleTimeString() : '-',
+                item.duration ? ((item.duration as number) / 3600000).toFixed(2) : '-',
+                formatCurrency((item.totalEarned as number) || 0)
             ]);
             break;
         case 'expenses':
             head = [['Date', 'Category', 'Description', 'Amount']];
-            body = data.map(item => [
-                new Date(item.date).toLocaleDateString(),
-                item.category,
-                item.description,
-                formatCurrency(item.amount)
+            body = (data as Record<string, unknown>[]).map(item => [
+                new Date(item.date as string).toLocaleDateString(),
+                item.category as string,
+                item.description as string,
+                formatCurrency(item.amount as number)
             ]);
             break;
         case 'mileage':
             head = [['Date', 'Start Address', 'End Address', 'Distance (km)', 'Purpose']];
-            body = data.map(item => [
-                new Date(item.date).toLocaleDateString(),
-                item.startAddress,
-                item.endAddress,
-                item.distance,
-                item.purpose
+            body = (data as Record<string, unknown>[]).map(item => [
+                new Date(item.date as string).toLocaleDateString(),
+                item.startAddress as string,
+                item.endAddress as string,
+                item.distance as string,
+                item.purpose as string
             ]);
             break;
         case 'clients':
             head = [['Name', 'Phone', 'Email', 'Address']];
-            body = data.map(item => [
-                item.name,
-                item.phone,
-                item.email,
-                item.address
+            body = (data as Record<string, unknown>[]).map(item => [
+                item.name as string,
+                item.phone as string,
+                item.email as string,
+                item.address as string
             ]);
             break;
     }

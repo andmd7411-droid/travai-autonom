@@ -1,11 +1,36 @@
-import { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import { Calendar, Clock, DollarSign, Map, Receipt, TrendingUp } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { formatCurrency, formatDuration } from '../utils/format';
-// Types are used in useLiveQuery generic but can be inferred or imported if needed for explicit typing
 import '../styles/DailySummaryPage.css';
+
+interface ProjectTagProps {
+    name: string;
+    color?: string;
+}
+
+const ProjectTag: React.FC<ProjectTagProps> = ({ name, color }) => {
+    const tagRef = useRef<HTMLSpanElement>(null);
+    const dotRef = useRef<HTMLSpanElement>(null);
+
+    useEffect(() => {
+        if (tagRef.current && color) {
+            tagRef.current.style.setProperty('--tag-color', color);
+        }
+        if (dotRef.current && color) {
+            dotRef.current.style.setProperty('--dot-color', color);
+        }
+    }, [color]);
+
+    return (
+        <span ref={tagRef} className="project-tag">
+            <span ref={dotRef} className="project-dot"></span>
+            {name}
+        </span>
+    );
+};
 
 const DailySummaryPage = () => {
     const { t } = useLanguage();
@@ -66,9 +91,12 @@ const DailySummaryPage = () => {
                 <div className="date-picker-container">
                     <Calendar size={20} />
                     <input
+                        id="summary-date-picker"
                         type="date"
                         value={selectedDate}
                         onChange={(e) => setSelectedDate(e.target.value)}
+                        title={t.date}
+                        aria-label={t.date}
                     />
                 </div>
             </div>
@@ -142,17 +170,12 @@ const DailySummaryPage = () => {
                                         const project = getProject(s.projectId);
                                         return (
                                             <li key={s.id}>
-                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                <div className="detail-item-content">
                                                     <span>
                                                         {s.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
                                                         {s.endTime?.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                     </span>
-                                                    {project && (
-                                                        <span style={{ fontSize: '0.8rem', color: project.color || 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                                            <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: project.color }}></span>
-                                                            {project.name}
-                                                        </span>
-                                                    )}
+                                                    {project && <ProjectTag name={project.name} color={project.color} />}
                                                 </div>
                                                 <span>{formatCurrency(s.totalEarned || 0)}</span>
                                             </li>
@@ -175,14 +198,9 @@ const DailySummaryPage = () => {
 
                                         return (
                                             <li key={e.id}>
-                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                <div className="detail-item-content">
                                                     <span>{e.title} ({catLabel})</span>
-                                                    {project && (
-                                                        <span style={{ fontSize: '0.8rem', color: project.color || 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                                            <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: project.color }}></span>
-                                                            {project.name}
-                                                        </span>
-                                                    )}
+                                                    {project && <ProjectTag name={project.name} color={project.color} />}
                                                 </div>
                                                 <span className="expense-amount">-{formatCurrency(e.amount)}</span>
                                             </li>

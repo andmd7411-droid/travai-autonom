@@ -1,188 +1,19 @@
-.daily-summary-page {
-    padding-bottom: 80px;
-}
-
-.summary-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.date-picker-container {
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 0.5rem 1rem;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.date-picker-container input {
-    background: transparent;
-    border: none;
-    color: var(--text-primary);
-    margin-left: 0.5rem;
-    font-size: 1rem;
-    outline: none;
-}
-
-/* Metrics Grid */
-.metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.metric-card {
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.metric-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.metric-icon.work {
-    background: rgba(59, 130, 246, 0.2);
-    color: #3b82f6;
-}
-
-.metric-icon.income {
-    background: rgba(16, 185, 129, 0.2);
-    color: #10b981;
-}
-
-.metric-icon.expense {
-    background: rgba(239, 68, 68, 0.2);
-    color: #ef4444;
-}
-
-.metric-icon.distance {
-    background: rgba(245, 158, 11, 0.2);
-    color: #f59e0b;
-}
-
-.metric-info {
+.detail-item-content {
     display: flex;
     flex-direction: column;
 }
 
-.metric-label {
+.project-tag {
     font-size: 0.8rem;
-    color: var(--text-secondary);
-}
-
-.metric-value {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-}
-
-/* Net Result */
-.net-result-card {
-    padding: 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    border-left: 5px solid transparent;
-}
-
-.net-result-card.positive {
-    border-left-color: #10b981;
-}
-
-.net-result-card.negative {
-    border-left-color: #ef4444;
-}
-
-.net-label {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 1.2rem;
-    font-weight: 600;
+    gap: 4px;
+    color: var(--tag-color);
 }
 
-.net-value {
-    font-size: 1.5rem;
-    font-weight: 800;
-}
-
-.positive .net-value {
-    color: #10b981;
-}
-
-.negative .net-value {
-    color: #ef4444;
-}
-
-/* Details */
-.details-section {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.detail-group h3 {
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-    color: var(--text-primary);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 0.5rem;
-}
-
-.detail-group {
-    padding: 1.5rem;
-}
-
-.detail-group ul {
-    list-style: none;
-    padding: 0;
-}
-
-.detail-group li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.8rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.detail-group li:last-child {
-    border-bottom: none;
-}
-
-.expense-amount {
-    color: #ef4444;
-}
-
-.mileage-details {
-    display: flex;
-    flex-direction: column;
-}
-
-.mileage-details .purpose {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-}
-
-.no-activity {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 4rem;
-    text-align: center;
-    color: var(--text-secondary);
-    gap: 1rem;
+.project-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--dot-color);
 }
