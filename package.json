@@ -1,7 +1,7 @@
 {
   "name": "travai-autonom",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "homepage": "https://andmd7411-droid.github.io/travai-autonom/",
   "scripts": {

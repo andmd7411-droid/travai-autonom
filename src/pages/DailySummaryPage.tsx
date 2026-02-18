@@ -15,6 +15,7 @@ const DailySummaryPage = () => {
     const workSessions = useLiveQuery(() => db.workSessions.toArray());
     const expenses = useLiveQuery(() => db.expenses.toArray());
     const mileage = useLiveQuery(() => db.mileage.toArray());
+    const projects = useLiveQuery(() => db.projects.toArray());
 
     // Filter by date
     const dateStart = new Date(selectedDate);
@@ -36,6 +37,9 @@ const DailySummaryPage = () => {
         const d = new Date(m.date);
         return d >= dateStart && d <= dateEnd;
     }) || [];
+
+    // Helper to get project info
+    const getProject = (id?: number) => projects?.find(p => p.id === id);
 
     // Calculations
     const totalEarnedWork = dailySessions.reduce((acc, s) => acc + (s.totalEarned || 0), 0);
@@ -134,15 +138,26 @@ const DailySummaryPage = () => {
                             <div className="detail-group glass-panel">
                                 <h3>{t.work}</h3>
                                 <ul>
-                                    {dailySessions.map(s => (
-                                        <li key={s.id}>
-                                            <span>
-                                                {s.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
-                                                {s.endTime?.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                            </span>
-                                            <span>{formatCurrency(s.totalEarned || 0)}</span>
-                                        </li>
-                                    ))}
+                                    {dailySessions.map(s => {
+                                        const project = getProject(s.projectId);
+                                        return (
+                                            <li key={s.id}>
+                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                    <span>
+                                                        {s.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
+                                                        {s.endTime?.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                    </span>
+                                                    {project && (
+                                                        <span style={{ fontSize: '0.8rem', color: project.color || 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                            <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: project.color }}></span>
+                                                            {project.name}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <span>{formatCurrency(s.totalEarned || 0)}</span>
+                                            </li>
+                                        );
+                                    })}
                                 </ul>
                             </div>
                         )}
@@ -151,12 +166,23 @@ const DailySummaryPage = () => {
                             <div className="detail-group glass-panel">
                                 <h3>{t.expenses}</h3>
                                 <ul>
-                                    {dailyExpenses.map(e => (
-                                        <li key={e.id}>
-                                            <span>{e.title} ({t.categories[e.category as keyof typeof t.categories] || e.category})</span>
-                                            <span className="expense-amount">-{formatCurrency(e.amount)}</span>
-                                        </li>
-                                    ))}
+                                    {dailyExpenses.map(e => {
+                                        const project = getProject(e.projectId);
+                                        return (
+                                            <li key={e.id}>
+                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                    <span>{e.title} ({t.categories?.[e.category as any] || e.category})</span>
+                                                    {project && (
+                                                        <span style={{ fontSize: '0.8rem', color: project.color || 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                            <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: project.color }}></span>
+                                                            {project.name}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <span className="expense-amount">-{formatCurrency(e.amount)}</span>
+                                            </li>
+                                        );
+                                    })}
                                 </ul>
                             </div>
                         )}
