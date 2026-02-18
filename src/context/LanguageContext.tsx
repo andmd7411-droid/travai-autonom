@@ -1,7 +1,6 @@
 import { useContext, useState, type ReactNode } from 'react';
 import { en } from '../locales/en';
 import { fr } from '../locales/fr';
-import { fr } from '../locales/fr';
 import { LanguageContext } from './LanguageContextCore';
 import type { Language, LanguageContextType } from './LanguageContextCore';
 
