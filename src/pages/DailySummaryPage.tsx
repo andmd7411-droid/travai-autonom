@@ -168,10 +168,15 @@ const DailySummaryPage = () => {
                                 <ul>
                                     {dailyExpenses.map(e => {
                                         const project = getProject(e.projectId);
+                                        // Safe access to categories
+                                        const catLabel = (t.categories as Record<string, string>)[e.category.toLowerCase()] ||
+                                            (t.categories as Record<string, string>)[e.category] ||
+                                            e.category;
+
                                         return (
                                             <li key={e.id}>
                                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                    <span>{e.title} ({t.categories?.[e.category as any] || e.category})</span>
+                                                    <span>{e.title} ({catLabel})</span>
                                                     {project && (
                                                         <span style={{ fontSize: '0.8rem', color: project.color || 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
                                                             <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: project.color }}></span>
