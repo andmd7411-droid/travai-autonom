@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://andmd7411-droid.github.io/travai-autonom/",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
