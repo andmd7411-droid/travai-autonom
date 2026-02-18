@@ -15,10 +15,13 @@ const ExpensesPage: React.FC = () => {
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState<string>(CATEGORIES[0]);
     const [description, setDescription] = useState('');
+    const [selectedProjectId, setSelectedProjectId] = useState<number | undefined>(undefined);
 
     const expenses = useLiveQuery(() =>
         db.expenses.orderBy('date').reverse().toArray()
     );
+
+    const projects = useLiveQuery(() => db.projects.where('status').equals('active').toArray());
 
     const handleAdd = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,11 +32,13 @@ const ExpensesPage: React.FC = () => {
             category,
             description,
             date: new Date(),
-            title: description || category // fallback
+            title: description || category, // fallback
+            projectId: selectedProjectId
         });
 
         setAmount('');
         setDescription('');
+        setSelectedProjectId(undefined);
         setShowForm(false);
     };
 
@@ -79,6 +84,21 @@ const ExpensesPage: React.FC = () => {
                             required
                             autoFocus
                         />
+                    </div>
+
+                    <div className="form-group">
+                        <Tag size={18} />
+                        <select
+                            value={selectedProjectId || ''}
+                            onChange={(e) => setSelectedProjectId(Number(e.target.value) || undefined)}
+                            aria-label={t.projects || "Projects"}
+                            className="project-dropdown-small"
+                        >
+                            <option value="">{t.select || "No Project"}</option>
+                            {projects?.map(p => (
+                                <option key={p.id} value={p.id}>{p.name}</option>
+                            ))}
+                        </select>
                     </div>
 
                     <div className="form-group">

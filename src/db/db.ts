@@ -1,5 +1,5 @@
 import Dexie, { type Table } from 'dexie';
-import type { WorkSession, Expense, DocumentItem, Invoice, Client, MileageEntry, Job } from '../types';
+import type { WorkSession, Expense, DocumentItem, Invoice, Client, MileageEntry, Job, Project } from '../types';
 
 export class AutonomousWorkerDB extends Dexie {
     workSessions!: Table<WorkSession>;
@@ -9,6 +9,7 @@ export class AutonomousWorkerDB extends Dexie {
     invoices!: Table<Invoice>;
     mileage!: Table<MileageEntry>;
     jobs!: Table<Job>;
+    projects!: Table<Project>;
 
     constructor() {
         super('AutonomousWorkerDB');
@@ -19,7 +20,8 @@ export class AutonomousWorkerDB extends Dexie {
             invoices: '++id, date, type',
             clients: '++id, name, email',
             mileage: '++id, date',
-            jobs: '++id, date, status'
+            jobs: '++id, date, status',
+            projects: '++id, name, status, clientId'
         });
     }
 }

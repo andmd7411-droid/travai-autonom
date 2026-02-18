@@ -4,7 +4,19 @@ export const en = {
     expenses: 'Expenses',
     documents: 'Documents',
     finance: 'Finance',
+    projects: 'Projects',
     backToHome: 'Back to Home',
+
+    // Projects Page
+    activeProjects: 'Active Projects',
+    addProject: 'New Project',
+    editProject: 'Edit Project',
+    newProject: 'New Project',
+    confirmDeleteProject: 'Delete this project?',
+    noProjectsFound: 'No projects found.',
+    hours: 'Hours',
+    color: 'Color',
+    select: 'Select...',
 
     // Work Page
     startWork: 'Start Work',
@@ -140,5 +152,26 @@ export const en = {
     pinTooShort: 'PIN must be at least 4 digits.',
     pinMismatch: 'PINs do not match.',
     pinSaved: 'PIN updated successfully.',
-    updatePin: 'Update PIN'
+    updatePin: 'Update PIN',
+
+    // Data Management
+    dataManagement: 'Data Management',
+    exportBackup: 'Export Backup',
+    importBackup: 'Import Backup',
+    backupNote: 'Download a JSON file containing all your data.',
+    restoreNote: 'Restore data from a backup file. WARNING: This will overwrite current data!',
+    backupSuccess: 'Backup created successfully.',
+    restoreSuccess: 'Data restored successfully. App will reload.',
+    restoreError: 'Failed to restore data. Invalid file.',
+
+    // Company Profile
+    companyProfile: 'Company Profile',
+    profileName: 'Company Name',
+    profileAddress: 'Address',
+    profilePhone: 'Phone',
+    profileEmail: 'Email',
+    profileTaxId: 'Tax ID (TPS/TVQ)',
+    logoUrl: 'Logo URL',
+    saveProfile: 'Save Profile',
+    profileSaved: 'Profile saved successfully.'
 };

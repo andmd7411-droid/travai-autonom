@@ -19,6 +19,9 @@ const WorkPage: React.FC = () => {
         return saved ? Number(saved) : 100;
     });
     const [currentSessionId, setCurrentSessionId] = useState<number | null>(null);
+    const [selectedProjectId, setSelectedProjectId] = useState<number | undefined>(undefined);
+
+    const projects = useLiveQuery(() => db.projects.where('status').equals('active').toArray());
 
     useEffect(() => {
         localStorage.setItem('hourlyRate', hourlyRate.toString());
@@ -35,6 +38,12 @@ const WorkPage: React.FC = () => {
                 setIsWorking(true);
                 setStartTime(activeSession.startTime);
                 setCurrentSessionId(activeSession.id!);
+                if (activeSession.projectId) {
+                    setSelectedProjectId(activeSession.projectId);
+                }
+                if (activeSession.hourlyRate) {
+                    setHourlyRate(activeSession.hourlyRate);
+                }
             }
         };
         checkActiveSession();
@@ -66,7 +75,9 @@ const WorkPage: React.FC = () => {
                     lng,
                     address
                 },
-                hourlyRate: hourlyRate
+                hourlyRate: hourlyRate,
+                projectId: selectedProjectId,
+                clientId: projects?.find(p => p.id === selectedProjectId)?.clientId
             });
 
             setStartTime(now);
@@ -124,6 +135,30 @@ const WorkPage: React.FC = () => {
     return (
         <div className="page-container work-page">
             <div className="status-card glass-panel">
+                <div className="project-selector">
+                    <select
+                        value={selectedProjectId || ''}
+                        onChange={(e) => {
+                            const pId = Number(e.target.value) || undefined;
+                            setSelectedProjectId(pId);
+                            if (pId && projects) {
+                                const project = projects.find(p => p.id === pId);
+                                if (project && project.hourlyRate) {
+                                    setHourlyRate(project.hourlyRate);
+                                }
+                            }
+                        }}
+                        disabled={isWorking}
+                        aria-label={t.projects || "Projects"}
+                        className="project-dropdown"
+                    >
+                        <option value="">{t.select || "No Project"}</option>
+                        {projects?.map(p => (
+                            <option key={p.id} value={p.id}>{p.name}</option>
+                        ))}
+                    </select>
+                </div>
+
                 <div className="rate-input">
                     <DollarSign size={16} />
                     <input

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import { useLanguage } from '../context/LanguageContext';
-import { Share, Printer, Plus, Trash2, ArrowLeft, FileCheck } from 'lucide-react';
+import { Share, Printer, Plus, Trash2, ArrowLeft, FileCheck, Download } from 'lucide-react';
 import { formatCurrency } from '../utils/format';
+import { generateInvoicePDF } from '../utils/pdfInvoice';
 import type { Client } from '../types';
 import '../styles/InvoiceGenerator.css';
 
@@ -25,10 +26,18 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorProps> = ({ onBack, initialType
 
     const clients = useLiveQuery(() => db.clients.toArray());
 
-    // Persistent Company Info
-    const [companyName, setCompanyName] = useState(localStorage.getItem('invoice_companyName') || '');
-    const [companyAddress, setCompanyAddress] = useState(localStorage.getItem('invoice_companyAddress') || '');
-    const [companyPhone, setCompanyPhone] = useState(localStorage.getItem('invoice_companyPhone') || '');
+    // Initialize with Global Company Profile if available
+    const [companyProfile] = useState(() => {
+        const saved = localStorage.getItem('companyProfile');
+        return saved ? JSON.parse(saved) : {};
+    });
+
+    // Local state for editing invoice specific details (defaults to global profile)
+    const [companyName, setCompanyName] = useState(companyProfile.name || '');
+    const [companyAddress, setCompanyAddress] = useState(companyProfile.address || '');
+    const [companyPhone, setCompanyPhone] = useState(companyProfile.phone || '');
+    const [companyEmail, setCompanyEmail] = useState(companyProfile.email || '');
+    const [taxId, setTaxId] = useState(companyProfile.taxId || '');
 
     // Invoice/Quote Info
     const [docNumber, setDocNumber] = useState('100');
@@ -40,13 +49,6 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorProps> = ({ onBack, initialType
     const [items, setItems] = useState<InvoiceItem[]>([
         { id: '1', description: 'Services', quantity: 1, price: 100 }
     ]);
-
-    // Save company info when changed
-    useEffect(() => {
-        localStorage.setItem('invoice_companyName', companyName);
-        localStorage.setItem('invoice_companyAddress', companyAddress);
-        localStorage.setItem('invoice_companyPhone', companyPhone);
-    }, [companyName, companyAddress, companyPhone]);
 
     // Tax State
     const [addTax, setAddTax] = useState(localStorage.getItem('invoice_addTax') === 'true');
@@ -79,7 +81,6 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorProps> = ({ onBack, initialType
 
     const convertToInvoice = () => {
         setType('invoice');
-        // Optionally generate new invoice number logic here
     };
 
     const subtotal = items.reduce((sum, item) => sum + (item.quantity * item.price), 0);
@@ -91,8 +92,49 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorProps> = ({ onBack, initialType
         window.print();
     };
 
+    const handleDownloadPDF = async () => {
+        await generateInvoicePDF({
+            type,
+            number: docNumber,
+            date,
+            company: {
+                name: companyName,
+                address: companyAddress,
+                phone: companyPhone,
+                email: companyEmail,
+                taxId: taxId,
+                logoUrl: companyProfile.logoUrl
+            },
+            client: {
+                name: clientName,
+                address: clientAddress
+            },
+            items,
+            totals: {
+                subtotal,
+                tps: addTax ? tps : undefined,
+                tvq: addTax ? tvq : undefined,
+                total
+            },
+            lang: {
+                invoice: t.invoice,
+                quote: t.quote || 'Quote',
+                date: t.date,
+                billTo: t.billTo,
+                item: t.itemDescription,
+                qty: t.quantity,
+                price: t.price,
+                total: t.total,
+                subtotal: t.subtotal,
+                tps: t.tps,
+                tvq: t.tvq,
+                thankYou: t.thankYou
+            }
+        });
+    };
+
     const handleEmail = () => {
-        const title = type === 'invoice' ? t.invoice : 'Quote'; // TODO: Add translation for Quote
+        const title = type === 'invoice' ? t.invoice : 'Quote';
         const subject = `${title} #${docNumber} - ${companyName || 'Freelancer'}`;
         const body = `Please find attached the ${type} #${docNumber}.\n\nSubtotal: ${formatCurrency(subtotal)}\nTPS: ${formatCurrency(tps)}\nTVQ: ${formatCurrency(tvq)}\nTotal: ${formatCurrency(total)}\n\nThank you,\n${companyName}`;
         window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -118,6 +160,10 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorProps> = ({ onBack, initialType
                         title={addTax ? 'Disable Taxes' : 'Enable Taxes'}
                     >
                         <span>{addTax ? 'TPS/TVQ ON' : 'TPS/TVQ OFF'}</span>
+                    </button>
+                    <button className="action-btn pdf-btn" onClick={handleDownloadPDF} title="Download PDF">
+                        <Download size={20} />
+                        <span>PDF</span>
                     </button>
                     <button className="action-btn email" onClick={handleEmail} title={t.sendEmail}>
                         <Share size={20} />
@@ -152,10 +198,26 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorProps> = ({ onBack, initialType
                         <input
                             type="text"
                             className="editable-text"
-                            placeholder="Phone / Email"
+                            placeholder={t.profilePhone}
                             value={companyPhone}
                             onChange={(e) => setCompanyPhone(e.target.value)}
-                            title="Company Contact Info"
+                            title="Phone"
+                        />
+                        <input
+                            type="email"
+                            className="editable-text"
+                            placeholder={t.profileEmail}
+                            value={companyEmail}
+                            onChange={(e) => setCompanyEmail(e.target.value)}
+                            title="Email"
+                        />
+                        <input
+                            type="text"
+                            className="editable-text"
+                            placeholder={t.profileTaxId}
+                            value={taxId}
+                            onChange={(e) => setTaxId(e.target.value)}
+                            title="Tax ID"
                         />
                     </div>
                     <div className="invoice-meta">

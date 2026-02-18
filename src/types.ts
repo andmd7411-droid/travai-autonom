@@ -7,6 +7,19 @@ export interface WorkSession {
     hourlyRate: number;
     totalEarned?: number;
     notes?: string;
+    duration?: number; // milliseconds
+    clientId?: number;
+    projectId?: number;
+}
+
+export interface Project {
+    id?: number;
+    name: string;
+    clientId?: number;
+    color: string;
+    hourlyRate?: number;
+    status: 'active' | 'completed' | 'archived';
+    description?: string;
 }
 
 export interface Expense {
@@ -17,6 +30,7 @@ export interface Expense {
     date: Date;
     description?: string;
     receiptPhoto?: Blob;
+    projectId?: number;
 }
 
 export interface DocumentItem {

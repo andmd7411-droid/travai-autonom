@@ -4,7 +4,19 @@ export const fr = {
     expenses: 'Dépenses',
     documents: 'Documents',
     finance: 'Finances',
+    projects: 'Projets',
     backToHome: 'Retour à l\'Accueil',
+
+    // Projects Page
+    activeProjects: 'Projets Actifs',
+    addProject: 'Nouveau Projet',
+    editProject: 'Modifier Projet',
+    newProject: 'Nouveau Projet',
+    confirmDeleteProject: 'Supprimer ce projet ?',
+    noProjectsFound: 'Aucun projet trouvé.',
+    hours: 'Heures',
+    color: 'Couleur',
+    select: 'Sélectionner...',
 
     // Work Page
     startWork: 'Commencer',
@@ -140,5 +152,26 @@ export const fr = {
     pinTooShort: 'Le PIN doit avoir au moins 4 chiffres.',
     pinMismatch: 'Les PIN ne correspondent pas.',
     pinSaved: 'PIN mis à jour avec succès.',
-    updatePin: 'Mettre à jour PIN'
+    updatePin: 'Mettre à jour PIN',
+
+    // Data Management
+    dataManagement: 'Gestion des Données',
+    exportBackup: 'Exporter Sauvegarde',
+    importBackup: 'Importer Sauvegarde',
+    backupNote: 'Téléchargez un fichier JSON contenant toutes vos données.',
+    restoreNote: 'Restaurez les données depuis une sauvegarde. ATTENTION : Cela écrasera les données actuelles !',
+    backupSuccess: 'Sauvegarde créée avec succès.',
+    restoreSuccess: 'Données restaurées. L\'application va redémarrer.',
+    restoreError: 'Échec de la restauration. Fichier invalide.',
+
+    // Company Profile
+    companyProfile: 'Profil Entreprise',
+    profileName: 'Nom de l\'Entreprise',
+    profileAddress: 'Adresse',
+    profilePhone: 'Téléphone',
+    profileEmail: 'Email',
+    profileTaxId: 'Numéros Taxe (TPS/TVQ)',
+    logoUrl: 'URL Logo',
+    saveProfile: 'Enregistrer Profil',
+    profileSaved: 'Profil enregistré avec succès.'
 };

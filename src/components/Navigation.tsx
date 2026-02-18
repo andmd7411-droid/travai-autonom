@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { Clock, Wallet, FileText, PieChart } from 'lucide-react';
+import { Clock, Wallet, FileText, PieChart, Folder } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import '../styles/Navigation.css';
 import '../styles/Navigation.css'; // We'll create this or use inline/global
@@ -20,6 +20,10 @@ const Navigation: React.FC = () => {
             <NavLink to="/documents" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
                 <FileText size={24} />
                 <span>{t.documents}</span>
+            </NavLink>
+            <NavLink to="/projects" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+                <Folder size={24} />
+                <span>{t.projects}</span>
             </NavLink>
             <NavLink to="/finance" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
                 <PieChart size={24} />

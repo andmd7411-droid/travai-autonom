@@ -6,6 +6,8 @@ import HomePage from './pages/HomePage';
 import WorkPage from './pages/WorkPage';
 import ExpensesPage from './pages/ExpensesPage';
 import DocumentsPage from './pages/DocumentsPage';
+import ProjectsPage from './pages/ProjectsPage';
+import ProjectDetailsPage from './pages/ProjectDetailsPage';
 import FinancePage from './pages/FinancePage';
 import ClientsPage from './pages/ClientsPage';
 import MileagePage from './pages/MileagePage';
@@ -40,6 +42,8 @@ const AppContent: React.FC = () => {
               <Route path="/work" element={<WorkPage />} />
               <Route path="/expenses" element={<ExpensesPage />} />
               <Route path="/documents" element={<DocumentsPage />} />
+              <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/projects/:id" element={<ProjectDetailsPage />} />
               <Route path="/finance" element={<FinancePage />} />
               <Route path="/clients" element={<ClientsPage />} />
               <Route path="/mileage" element={<MileagePage />} />
