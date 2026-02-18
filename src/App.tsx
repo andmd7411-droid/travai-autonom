@@ -10,6 +10,8 @@ import FinancePage from './pages/FinancePage';
 import ClientsPage from './pages/ClientsPage';
 import MileagePage from './pages/MileagePage';
 import JobsPage from './pages/JobsPage';
+import DailySummaryPage from './pages/DailySummaryPage';
+import SettingsPage from './pages/SettingsPage';
 import { LanguageProvider } from './context/LanguageContext';
 import './styles/global.css';
 
@@ -28,25 +30,43 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="app-container">
-      <Header />
-      <main className="content-area">
-        <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/work" element={<WorkPage />} />
-            <Route path="/expenses" element={<ExpensesPage />} />
-            <Route path="/documents" element={<DocumentsPage />} />
-            <Route path="/finance" element={<FinancePage />} />
-            <Route path="/clients" element={<ClientsPage />} />
-            <Route path="/mileage" element={<MileagePage />} />
-            <Route path="/jobs" element={<JobsPage />} />
-          </Routes>
-        </AnimatePresence>
-      </main>
-      {/* We keep the bottom nav but it serves as a secondary quick-switch */}
-      <Navigation />
+      {/* We need to handle the lock screen state here or in a wrapper */}
+      <LockScreenWrapper>
+        <Header />
+        <main className="content-area">
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/work" element={<WorkPage />} />
+              <Route path="/expenses" element={<ExpensesPage />} />
+              <Route path="/documents" element={<DocumentsPage />} />
+              <Route path="/finance" element={<FinancePage />} />
+              <Route path="/clients" element={<ClientsPage />} />
+              <Route path="/mileage" element={<MileagePage />} />
+              <Route path="/jobs" element={<JobsPage />} />
+              <Route path="/daily-summary" element={<DailySummaryPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+            </Routes>
+          </AnimatePresence>
+        </main>
+        {/* We keep the bottom nav but it serves as a secondary quick-switch */}
+        <Navigation />
+      </LockScreenWrapper>
     </div>
   );
+};
+
+import LockScreen from './components/LockScreen';
+import { useState } from 'react';
+
+const LockScreenWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isLocked, setIsLocked] = useState(true);
+
+  if (isLocked) {
+    return <LockScreen onUnlock={() => setIsLocked(false)} />;
+  }
+
+  return <>{children}</>;
 };
 
 export default App;

@@ -88,6 +88,12 @@ export const en = {
     search: 'Search',
     confirmDeleteMileage: 'Delete this trip?',
     cancel: 'Cancel',
+    startTrip: 'Start Trip',
+    stopTrip: 'Stop Trip',
+    calculating: 'gps...',
+    tripInProgress: 'Trip in Progress',
+    currentSpeed: 'Speed',
+    duration: 'Duration',
 
     // Export
     exportData: 'Export Data',
@@ -106,5 +112,33 @@ export const en = {
     completed: 'Completed',
     cancelled: 'Cancelled',
     confirmDeleteJob: 'Delete this job?',
-    noJobsFound: 'No jobs found.'
+    noJobsFound: 'No jobs found.',
+
+    // Lock Screen
+    enterPin: 'Enter PIN',
+    setupPin: 'Setup PIN Protection',
+    wrongPin: 'Incorrect PIN',
+    forgotPin: 'Forgot PIN? Contact Support or Clear Data.',
+
+    // Daily Summary
+    dailySummary: 'Daily Summary',
+    summaryDate: 'Summary for',
+    totalHours: 'Total Worked',
+    totalEarned: 'Total Earned',
+    totalDistance: 'Total Distance',
+    dailyTotalExpenses: 'Total Expenses',
+    netResult: 'Net Result',
+    noActivity: 'No activity recorded for this day.',
+
+    // Settings
+    settings: 'Settings',
+    security: 'Security',
+    changePin: 'Change PIN',
+    currentPin: 'Current PIN',
+    newPin: 'New PIN',
+    confirmPin: 'Confirm New PIN',
+    pinTooShort: 'PIN must be at least 4 digits.',
+    pinMismatch: 'PINs do not match.',
+    pinSaved: 'PIN updated successfully.',
+    updatePin: 'Update PIN'
 };

@@ -1,0 +1,73 @@
+.settings-page {
+    padding-bottom: 80px;
+}
+
+.settings-section {
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1rem;
+}
+
+.icon-shield {
+    color: var(--color-primary);
+}
+
+.pin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.pin-form h4 {
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.message.success {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+}
+
+.message.error {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.save-btn {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 1rem;
+}
+
+.save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(var(--color-primary-rgb), 0.3);
+}

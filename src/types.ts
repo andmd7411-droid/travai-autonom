@@ -53,6 +53,11 @@ export interface MileageEntry {
     endAddress: string;
     distance: number;
     purpose: string;
+    startTime?: Date;
+    endTime?: Date;
+    startLocation?: { lat: number; lng: number };
+    endLocation?: { lat: number; lng: number };
+    duration?: number; // milliseconds
 }
 
 export interface Job {

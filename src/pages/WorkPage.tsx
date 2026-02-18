@@ -14,8 +14,15 @@ const WorkPage: React.FC = () => {
     const [isWorking, setIsWorking] = useState(false);
     const [startTime, setStartTime] = useState<Date | null>(null);
     const [elapsed, setElapsed] = useState(0);
-    const [hourlyRate, setHourlyRate] = useState(100); // Default 100 MDL/hr or similar
+    const [hourlyRate, setHourlyRate] = useState(() => {
+        const saved = localStorage.getItem('hourlyRate');
+        return saved ? Number(saved) : 100;
+    });
     const [currentSessionId, setCurrentSessionId] = useState<number | null>(null);
+
+    useEffect(() => {
+        localStorage.setItem('hourlyRate', hourlyRate.toString());
+    }, [hourlyRate]);
 
     // Restore state from unfinished session if any
     useEffect(() => {

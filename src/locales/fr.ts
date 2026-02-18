@@ -88,6 +88,12 @@ export const fr = {
     search: 'Rechercher',
     confirmDeleteMileage: 'Supprimer ce trajet ?',
     cancel: 'Annuler',
+    startTrip: 'Démarrer Trajet',
+    stopTrip: 'Arrêter Trajet',
+    calculating: 'gps...',
+    tripInProgress: 'Trajet en cours',
+    currentSpeed: 'Vitesse',
+    duration: 'Durée',
 
     // Export
     exportData: 'Exporter les Données',
@@ -106,5 +112,33 @@ export const fr = {
     completed: 'Terminé',
     cancelled: 'Annulé',
     confirmDeleteJob: 'Supprimer cette tâche ?',
-    noJobsFound: 'Aucune tâche trouvée.'
+    noJobsFound: 'Aucune tâche trouvée.',
+
+    // Lock Screen
+    enterPin: 'Entrez le PIN',
+    setupPin: 'Configurer le PIN',
+    wrongPin: 'Code PIN incorrect',
+    forgotPin: 'PIN oublié ? Contactez le support ou effacez les données.',
+
+    // Daily Summary
+    dailySummary: 'Raport Zilnic',
+    summaryDate: 'Rezumat pentru',
+    totalHours: 'Ore Lucrate',
+    totalEarned: 'Câștig Total',
+    totalDistance: 'Distanță Totală',
+    dailyTotalExpenses: 'Cheltuieli Totale',
+    netResult: 'Rezultat Net',
+    noActivity: 'Nicio activitate înregistrată pentru această zi.',
+
+    // Settings
+    settings: 'Setări',
+    security: 'Securitate',
+    changePin: 'Schimbă PIN',
+    currentPin: 'PIN Actual',
+    newPin: 'PIN Nou',
+    confirmPin: 'Confirmă PIN Nou',
+    pinTooShort: 'PIN-ul trebuie să aibă cel puțin 4 cifre.',
+    pinMismatch: 'PIN-urile nu corespund.',
+    pinSaved: 'PIN actualizat cu succes.',
+    updatePin: 'Actualizează PIN'
 };

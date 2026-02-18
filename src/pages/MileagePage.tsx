@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
-import { Plus, Search, Edit2, Trash2, MapPin, Calendar, Navigation } from 'lucide-react';
+import { Plus, Search, Edit2, Trash2, MapPin, Calendar, Navigation, Play, Square } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { MileageEntry } from '../types';
 import '../styles/MileagePage.css';
+
+import { formatDuration } from '../utils/format';
+import { getAddressFromCoords } from '../utils/geocoding';
+import { calculateDistance } from '../utils/distance';
+import { useInterval } from 'react-use';
 
 const MileagePage: React.FC = () => {
     const { t } = useLanguage();
@@ -13,12 +18,94 @@ const MileagePage: React.FC = () => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [editingId, setEditingId] = useState<number | null>(null);
 
+    // Tracking State
+    const [isTracking, setIsTracking] = useState(false);
+    const [tripStartTime, setTripStartTime] = useState<Date | null>(null);
+    const [tripStartPos, setTripStartPos] = useState<{ lat: number; lng: number } | null>(null);
+    const [elapsed, setElapsed] = useState(0);
+
     // Form State
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
     const [startAddress, setStartAddress] = useState('');
     const [endAddress, setEndAddress] = useState('');
     const [distance, setDistance] = useState('');
     const [purpose, setPurpose] = useState('');
+
+    // Restore tracking state
+    useEffect(() => {
+        const savedTracking = localStorage.getItem('mileageTracking');
+        if (savedTracking) {
+            const data = JSON.parse(savedTracking);
+            setIsTracking(true);
+            setTripStartTime(new Date(data.startTime));
+            setTripStartPos(data.startPos);
+        }
+    }, []);
+
+    useInterval(() => {
+        if (isTracking && tripStartTime) {
+            setElapsed(Date.now() - tripStartTime.getTime());
+        }
+    }, isTracking ? 1000 : null);
+
+    const handleStartTrip = () => {
+        if (!navigator.geolocation) {
+            alert(t.gpsRequired);
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            const now = new Date();
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            const startPos = { lat, lng };
+
+            // Get address
+            const addr = await getAddressFromCoords(lat, lng);
+            setStartAddress(addr);
+
+            setIsTracking(true);
+            setTripStartTime(now);
+            setTripStartPos(startPos);
+            setElapsed(0);
+
+            // Save state
+            localStorage.setItem('mileageTracking', JSON.stringify({
+                startTime: now,
+                startPos: startPos
+            }));
+
+        }, (err) => alert(t.gpsError), { enableHighAccuracy: true });
+    };
+
+    const handleStopTrip = () => {
+        if (!tripStartTime || !tripStartPos) return;
+
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            const now = new Date();
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+
+            const dist = calculateDistance(tripStartPos.lat, tripStartPos.lng, lat, lng);
+            const addr = await getAddressFromCoords(lat, lng);
+
+            setEndAddress(addr);
+            setDistance(dist.toString());
+            setDate(now.toISOString().split('T')[0]);
+
+            // Auto open form with prefilled data
+            setEditingId(null);
+            setIsFormOpen(true);
+
+            // Reset tracking
+            setIsTracking(false);
+            setTripStartTime(null);
+            setTripStartPos(null);
+            setElapsed(0);
+            localStorage.removeItem('mileageTracking');
+
+        }, (err) => alert(t.gpsError), { enableHighAccuracy: true });
+    };
 
     const mileageEntries = useLiveQuery(() =>
         db.mileage.orderBy('date').reverse().toArray()
@@ -82,6 +169,27 @@ const MileagePage: React.FC = () => {
             <div className="mileage-header">
                 <h2>{t.mileage}</h2>
                 <div className="header-actions">
+                    {/* Tracking UI */}
+                    <div className={`tracking-controls ${isTracking ? 'active' : ''}`}>
+                        {isTracking ? (
+                            <div className="tracking-status glass-panel">
+                                <div className="tracking-timer">
+                                    <span className="pulsing-dot"></span>
+                                    {formatDuration(elapsed)}
+                                </div>
+                                <button className="stop-btn" onClick={handleStopTrip}>
+                                    <Square size={20} fill="currentColor" />
+                                    <span>{t.stopTrip}</span>
+                                </button>
+                            </div>
+                        ) : (
+                            <button className="start-btn" onClick={handleStartTrip}>
+                                <Play size={20} fill="currentColor" />
+                                <span>{t.startTrip}</span>
+                            </button>
+                        )}
+                    </div>
+
                     <div className="search-bar">
                         <Search size={20} />
                         <input

@@ -1,0 +1,140 @@
+.lock-screen-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-gradient);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.lock-pad {
+    width: 100%;
+    max-width: 360px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.lock-icon {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(var(--color-primary-rgb), 0.1);
+    border-radius: 50%;
+}
+
+.lock-pad h2 {
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
+
+.pin-display {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.pin-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.2s ease;
+}
+
+.pin-dot.filled {
+    background: var(--color-primary);
+    box-shadow: 0 0 10px var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.pin-dot.error {
+    background: #ef4444;
+    border-color: #ef4444;
+    animation: shake 0.3s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+.number-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.number-pad button {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.number-pad button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.number-pad button:active {
+    transform: scale(0.95);
+}
+
+.delete-btn {
+    background: transparent !important;
+    color: var(--text-secondary) !important;
+}
+
+.delete-btn:hover {
+    color: #ef4444 !important;
+    transform: none !important;
+}
+
+.error-message {
+    color: #ef4444;
+    margin-top: -1.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.forgot-pin {
+    margin-top: 2rem;
+    color: var(--text-secondary);
+    text-align: center;
+    opacity: 0.6;
+}
+
+@keyframes shake {
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
