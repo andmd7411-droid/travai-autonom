@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import { Calendar, Clock, DollarSign, Map, Receipt, TrendingUp } from 'lucide-react';
@@ -7,7 +7,7 @@ import { formatCurrency, formatDuration } from '../utils/format';
 // Types are used in useLiveQuery generic but can be inferred or imported if needed for explicit typing
 import '../styles/DailySummaryPage.css';
 
-const DailySummaryPage: React.FC = () => {
+const DailySummaryPage = () => {
     const { t } = useLanguage();
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
 

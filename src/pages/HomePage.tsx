@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Clock, DollarSign, FileText, PieChart, Users, Map, Calendar, Shield } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { motion } from 'framer-motion';
 import '../styles/HomePage.css';
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
     const navigate = useNavigate();
     const { t } = useLanguage();
 

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Shield, Lock, Save, CheckCircle, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import '../styles/SettingsPage.css';
 
-const SettingsPage: React.FC = () => {
+const SettingsPage = () => {
     const { t } = useLanguage();
     const [currentPin, setCurrentPin] = useState('');
     const [newPin, setNewPin] = useState('');

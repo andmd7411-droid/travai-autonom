@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import { Plus, Search, Edit2, Trash2, MapPin, Calendar, Navigation, Play, Square } from 'lucide-react';
@@ -12,7 +12,7 @@ import { getAddressFromCoords } from '../utils/geocoding';
 import { calculateDistance } from '../utils/distance';
 import { useInterval } from 'react-use';
 
-const MileagePage: React.FC = () => {
+const MileagePage = () => {
     const { t } = useLanguage();
     const [searchTerm, setSearchTerm] = useState('');
     const [isFormOpen, setIsFormOpen] = useState(false);
@@ -75,7 +75,10 @@ const MileagePage: React.FC = () => {
                 startPos: startPos
             }));
 
-        }, (err) => alert(t.gpsError), { enableHighAccuracy: true });
+        }, (err) => {
+            console.error(err);
+            alert(t.gpsError);
+        }, { enableHighAccuracy: true });
     };
 
     const handleStopTrip = () => {
@@ -104,7 +107,10 @@ const MileagePage: React.FC = () => {
             setElapsed(0);
             localStorage.removeItem('mileageTracking');
 
-        }, (err) => alert(t.gpsError), { enableHighAccuracy: true });
+        }, (err) => {
+            console.error(err);
+            alert(t.gpsError);
+        }, { enableHighAccuracy: true });
     };
 
     const mileageEntries = useLiveQuery(() =>

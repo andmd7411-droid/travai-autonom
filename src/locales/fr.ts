@@ -73,7 +73,7 @@ export const fr = {
     thankYou: 'Merci de votre confiance !',
 
     // Mileage Page
-    mileage: 'Jurnal Kilometraj',
+    mileage: 'Journal Kilométrique',
     addMileage: 'Ajouter Trajet',
     editMileage: 'Modifier Trajet',
     startAddress: 'Départ',
@@ -121,24 +121,24 @@ export const fr = {
     forgotPin: 'PIN oublié ? Contactez le support ou effacez les données.',
 
     // Daily Summary
-    dailySummary: 'Raport Zilnic',
-    summaryDate: 'Rezumat pentru',
-    totalHours: 'Ore Lucrate',
-    totalEarned: 'Câștig Total',
-    totalDistance: 'Distanță Totală',
-    dailyTotalExpenses: 'Cheltuieli Totale',
-    netResult: 'Rezultat Net',
-    noActivity: 'Nicio activitate înregistrată pentru această zi.',
+    dailySummary: 'Résumé Quotidien',
+    summaryDate: 'Résumé pour',
+    totalHours: 'Heures Travaillées',
+    totalEarned: 'Total Gagné',
+    totalDistance: 'Distance Totale',
+    dailyTotalExpenses: 'Dépenses Totales',
+    netResult: 'Résultat Net',
+    noActivity: 'Aucune activité enregistrée pour ce jour.',
 
     // Settings
-    settings: 'Setări',
-    security: 'Securitate',
-    changePin: 'Schimbă PIN',
-    currentPin: 'PIN Actual',
-    newPin: 'PIN Nou',
-    confirmPin: 'Confirmă PIN Nou',
-    pinTooShort: 'PIN-ul trebuie să aibă cel puțin 4 cifre.',
-    pinMismatch: 'PIN-urile nu corespund.',
-    pinSaved: 'PIN actualizat cu succes.',
-    updatePin: 'Actualizează PIN'
+    settings: 'Paramètres',
+    security: 'Sécurité',
+    changePin: 'Changer PIN',
+    currentPin: 'PIN Actuel',
+    newPin: 'Nouveau PIN',
+    confirmPin: 'Confirmer Nouveau PIN',
+    pinTooShort: 'Le PIN doit avoir au moins 4 chiffres.',
+    pinMismatch: 'Les PIN ne correspondent pas.',
+    pinSaved: 'PIN mis à jour avec succès.',
+    updatePin: 'Mettre à jour PIN'
 };
