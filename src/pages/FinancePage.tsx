@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
-import { TrendingUp, TrendingDown, Wallet, Download, Filter } from 'lucide-react';
+import { TrendingUp, TrendingDown, Wallet, Download, Filter, Target, Percent } from 'lucide-react';
 import { formatCurrency } from '../utils/format';
 import { exportToCSV, exportToPDF } from '../utils/export';
 import { useLanguage } from '../context/LanguageContext';
@@ -18,6 +18,13 @@ const FinancePage: React.FC = () => {
     const clients = useLiveQuery(() => db.clients.toArray());
 
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
+    // Load goal and tax rates from localStorage
+    const monthlyGoal = Number(localStorage.getItem('monthlyGoal') || 0);
+    const taxRates = (() => {
+        const saved = localStorage.getItem('taxRates');
+        return saved ? JSON.parse(saved) : { tps: 5, tvq: 9.975 };
+    })();
 
     // --- Aggregation Logic ---
     const { income, expense, net, monthlyData, categoryData, stats } = useMemo(() => {
@@ -201,6 +208,64 @@ const FinancePage: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Goal Progress Bar */}
+            {monthlyGoal > 0 && (() => {
+                const thisMonth = new Date();
+                const monthIncome = sessions?.filter(s => {
+                    const d = new Date(s.startTime);
+                    return d.getMonth() === thisMonth.getMonth() && d.getFullYear() === thisMonth.getFullYear();
+                }).reduce((acc, s) => acc + (s.totalEarned || 0), 0) || 0;
+                const pct = Math.min(100, (monthIncome / monthlyGoal) * 100);
+                return (
+                    <div className="goal-section glass-panel">
+                        <div className="goal-header">
+                            <Target size={18} />
+                            <span>Objectif du mois</span>
+                            <span className="goal-amounts">{formatCurrency(monthIncome)} / {formatCurrency(monthlyGoal)}</span>
+                        </div>
+                        <div className="goal-bar-bg">
+                            <div
+                                className={`goal-bar-fill ${pct >= 100 ? 'complete' : ''}`}
+                                style={{ width: `${pct}%` } as React.CSSProperties}
+                            />
+                        </div>
+                        <div className="goal-pct">{pct.toFixed(0)}% atteint</div>
+                    </div>
+                );
+            })()}
+
+            {/* Tax Estimation */}
+            {net > 0 && (
+                <div className="tax-section glass-panel">
+                    <div className="tax-header">
+                        <Percent size={18} />
+                        <span>Estimation des Taxes ({selectedYear})</span>
+                    </div>
+                    <div className="tax-rows">
+                        <div className="tax-row">
+                            <span>Revenu net imposable</span>
+                            <span>{formatCurrency(net)}</span>
+                        </div>
+                        <div className="tax-row">
+                            <span>TPS ({taxRates.tps}%)</span>
+                            <span className="tax-val">{formatCurrency(net * taxRates.tps / 100)}</span>
+                        </div>
+                        <div className="tax-row">
+                            <span>TVQ ({taxRates.tvq}%)</span>
+                            <span className="tax-val">{formatCurrency(net * taxRates.tvq / 100)}</span>
+                        </div>
+                        <div className="tax-row total">
+                            <span>Total taxes estimées</span>
+                            <span>{formatCurrency(net * (taxRates.tps + taxRates.tvq) / 100)}</span>
+                        </div>
+                        <div className="tax-row net-after">
+                            <span>Net après taxes</span>
+                            <span className="positive">{formatCurrency(net - net * (taxRates.tps + taxRates.tvq) / 100)}</span>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <div className="export-section glass-panel">
                 <h3>{t.exportData}</h3>

@@ -1,3 +1,4 @@
+/* ─── Existing styles ─── */
 .receipt-upload-group {
     flex-direction: column;
     align-items: flex-start;
@@ -59,4 +60,307 @@
 
 .hidden-file-input {
     display: none;
+}
+
+/* ─── FAB row ─── */
+.expenses-fab-row {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+
+/* Camera scan FAB */
+.scan-fab {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #14b8a6, #0d9488);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(20, 184, 166, 0.4);
+    transition: transform 0.15s;
+    flex-shrink: 0;
+}
+
+.scan-fab:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.scan-fab:active {
+    transform: scale(0.95);
+}
+
+/* Spin animation for loader */
+.spin-icon {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ─── OCR scanning indicator ─── */
+.ocr-scanning {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: var(--color-text-main);
+    background: rgba(20, 184, 166, 0.1);
+    border: 1px solid rgba(20, 184, 166, 0.3);
+}
+
+/* ─── OCR error ─── */
+.ocr-error {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.ocr-error button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ef4444;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* ─── OCR confirm card ─── */
+.ocr-confirm {
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    border: 2px solid rgba(20, 184, 166, 0.3);
+}
+
+.receipt-thumb {
+    width: 100%;
+    max-height: 160px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.receipt-thumb-small {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.ocr-confirm-amount {
+    font-size: 1.1rem;
+    color: var(--color-text-main);
+    text-align: center;
+}
+
+.ocr-confirm-amount strong {
+    color: #14b8a6;
+    font-size: 1.4rem;
+}
+
+.ocr-confirm-question {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+.ocr-confirm-btns {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.ocr-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s;
+    color: white;
+}
+
+.ocr-btn:active {
+    transform: scale(0.97);
+}
+
+.expense-btn {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    box-shadow: 0 3px 10px rgba(239, 68, 68, 0.35);
+}
+
+.income-btn {
+    background: linear-gradient(135deg, #10b981, #059669);
+    box-shadow: 0 3px 10px rgba(16, 185, 129, 0.35);
+}
+
+.ocr-cancel-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 0.3rem;
+}
+
+/* ─── Receipt preview row in form ─── */
+.receipt-preview-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(20, 184, 166, 0.08);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+.receipt-preview-row button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+/* ─── Tags input (#12) ─── */
+.tags-input-group {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 6px !important;
+}
+
+.tags-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.tag-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(99, 102, 241, 0.15);
+    color: #6366f1;
+    border-radius: 20px;
+    padding: 2px 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.tag-chip button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6366f1;
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+.tag-input-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 5px 10px;
+    width: 100%;
+}
+
+.tag-input-row input {
+    border: none;
+    background: transparent;
+    font-size: 0.85rem;
+    color: var(--color-text-main);
+    font-family: inherit;
+    flex: 1;
+}
+
+.tag-input-row input:focus {
+    outline: none;
+}
+
+/* ─── Tag filter bar ─── */
+.tag-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.tag-filter-chip {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    transition: all 0.15s;
+}
+
+.tag-filter-chip.active {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+}
+
+/* ─── Expense tag display ─── */
+.expense-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 3px;
+}
+
+.expense-tag {
+    font-size: 0.72rem;
+    color: #6366f1;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 10px;
+    padding: 1px 6px;
 }

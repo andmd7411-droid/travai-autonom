@@ -295,3 +295,114 @@
     font-weight: bold;
     color: var(--text-primary);
 }
+
+/* ─── Goal Progress Bar ─── */
+.goal-section {
+    padding: 18px 20px;
+    margin-bottom: 20px;
+}
+
+.goal-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--color-text-main);
+}
+
+.goal-amounts {
+    margin-left: auto;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.goal-bar-bg {
+    height: 10px;
+    background: rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.goal-bar-fill {
+    height: 100%;
+    background: var(--color-primary);
+    border-radius: 10px;
+    transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.goal-bar-fill.complete {
+    background: var(--color-success);
+}
+
+.goal-pct {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    text-align: right;
+}
+
+/* ─── Tax Estimation ─── */
+.tax-section {
+    padding: 18px 20px;
+    margin-bottom: 20px;
+}
+
+.tax-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    color: var(--color-text-main);
+}
+
+.tax-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tax-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.tax-row.total {
+    font-weight: 700;
+    border-top: 2px solid rgba(255, 255, 255, 0.15);
+    border-bottom: none;
+    padding-top: 10px;
+    margin-top: 4px;
+}
+
+.tax-row.net-after {
+    border-bottom: none;
+}
+
+.tax-val {
+    color: var(--color-danger);
+}
+
+.tax-row .positive {
+    color: var(--color-success);
+    font-weight: 700;
+}
+
+/* ─── Card subvalue ─── */
+.card-subvalue {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin-top: 4px;
+}
+
+.top-client-name {
+    font-size: 1.1rem !important;
+}
+
+.top-client-income {
+    color: var(--color-success) !important;
+}

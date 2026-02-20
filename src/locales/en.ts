@@ -62,6 +62,7 @@ export const en = {
     // Invoice Generator
     createInvoice: 'Create Invoice',
     invoice: 'INVOICE',
+    addTax: 'Add Taxes',
     date: 'Date',
     invoiceNumber: 'Invoice No',
     billTo: 'Bill To',

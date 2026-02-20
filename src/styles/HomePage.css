@@ -1,4 +1,204 @@
-.home-page .card-icon {
-    background-color: var(--bg-color);
-    color: var(--icon-color);
+.home-page {
+    padding: 0.75rem;
+    padding-bottom: 5rem;
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+}
+
+/* ─── Live Stats Banner ─── */
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.65rem;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: transform 0.15s;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-border);
+}
+
+.stat-card:active {
+    transform: scale(0.97);
+}
+
+.stat-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.stat-card.income .stat-icon {
+    background: rgba(16, 185, 129, 0.12);
+    color: #10b981;
+}
+
+.stat-card.expense .stat-icon {
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+}
+
+.stat-card.net .stat-icon {
+    background: rgba(99, 102, 241, 0.12);
+    color: #6366f1;
+}
+
+.stat-card.hours .stat-icon {
+    background: rgba(245, 158, 11, 0.12);
+    color: #f59e0b;
+}
+
+.stat-body {
+    min-width: 0;
+}
+
+.stat-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+.stat-value {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--color-text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stat-value.positive {
+    color: #10b981;
+}
+
+.stat-value.negative {
+    color: #ef4444;
+}
+
+/* ─── Alert chips ─── */
+.dashboard-alerts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 0.65rem;
+}
+
+.alert-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.alert-chip:active {
+    opacity: 0.8;
+}
+
+.alert-chip.invoice {
+    background: rgba(245, 158, 11, 0.12);
+    color: #b45309;
+    border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.alert-chip.event {
+    background: rgba(99, 102, 241, 0.1);
+    color: #4f46e5;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .alert-chip.invoice {
+    color: #fbbf24;
+}
+
+[data-theme="dark"] .alert-chip.event {
+    color: #818cf8;
+}
+
+/* ─── Navigation grid ─── */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.colored-card {
+    background: var(--card-color, #3b82f6);
+    border-radius: 16px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    transition: box-shadow 0.2s;
+    color: #fff;
+    padding: 0.75rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.colored-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 16px 16px 60% 60%;
+    pointer-events: none;
+}
+
+.colored-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+.colored-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.colored-card-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    line-height: 1.2;
+}
+
+@media (max-width: 400px) {
+    .dashboard-grid {
+        gap: 0.5rem;
+    }
+
+    .colored-card {
+        height: 88px;
+    }
 }

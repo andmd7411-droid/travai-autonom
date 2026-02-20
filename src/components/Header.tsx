@@ -1,11 +1,13 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Globe, ChevronLeft } from 'lucide-react';
+import { Globe, ChevronLeft, Sun, Moon } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
 import '../styles/Header.css';
 
 const Header: React.FC = () => {
     const { language, setLanguage, t } = useLanguage();
+    const { theme, toggleTheme } = useTheme();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -27,6 +29,14 @@ const Header: React.FC = () => {
             </div>
 
             <div className="header-actions">
+                <button
+                    className="theme-btn"
+                    onClick={toggleTheme}
+                    aria-label={theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
+                    title={theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
+                >
+                    {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                </button>
                 <button className="lang-btn" onClick={toggleLanguage} aria-label="Switch Language">
                     <span className="lang-text">{language.toUpperCase()}</span>
                     <Globe size={18} />

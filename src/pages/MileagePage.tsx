@@ -51,7 +51,18 @@ const MileagePage = () => {
 
     // Form State
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-    const [startAddress, setStartAddress] = useState('');
+    const [startAddress, setStartAddress] = useState(() => {
+        const saved = localStorage.getItem('mileageTracking');
+        if (saved) {
+            try {
+                const data = JSON.parse(saved);
+                return data.startAddress || '';
+            } catch {
+                return '';
+            }
+        }
+        return '';
+    });
     const [endAddress, setEndAddress] = useState('');
     const [distance, setDistance] = useState('');
     const [purpose, setPurpose] = useState('');
@@ -86,13 +97,14 @@ const MileagePage = () => {
             // Save state
             localStorage.setItem('mileageTracking', JSON.stringify({
                 startTime: now,
-                startPos: startPos
+                startPos: startPos,
+                startAddress: addr
             }));
 
         }, (err) => {
             console.error(err);
             alert(t.gpsError);
-        }, { enableHighAccuracy: true });
+        }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
     };
 
     const handleStopTrip = () => {
@@ -124,7 +136,7 @@ const MileagePage = () => {
         }, (err) => {
             console.error(err);
             alert(t.gpsError);
-        }, { enableHighAccuracy: true });
+        }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
     };
 
     const mileageEntries = useLiveQuery(() =>

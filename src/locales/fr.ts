@@ -62,6 +62,7 @@ export const fr = {
     // Invoice Generator
     createInvoice: 'Créer Facture',
     invoice: 'FACTURE',
+    addTax: 'Ajouter Taxes',
     date: 'Date',
     invoiceNumber: 'N° Facture',
     billTo: 'Facturer à',

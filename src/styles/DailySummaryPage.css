@@ -17,3 +17,130 @@
     border-radius: 50%;
     background-color: var(--dot-color);
 }
+
+.daily-group-container {
+    margin-bottom: 12px;
+}
+
+.daily-group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.daily-group-header:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.daily-group-header.active {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.daily-group-header .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.daily-group-header .date-text {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.daily-group-header .net-summary {
+    font-weight: 700;
+}
+
+.daily-group-details {
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0 0 16px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.metrics-grid.mini {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.metrics-grid.mini .metric-card {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    margin-bottom: 0;
+}
+
+.metrics-grid.mini .metric-card span {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.daily-note-section {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.note-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.note-input-container {
+    display: flex;
+    gap: 12px;
+}
+
+.note-input-container textarea {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px;
+    color: white;
+    font-family: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+    min-height: 80px;
+}
+
+.note-input-container button {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    flex-shrink: 0;
+}
+
+.note-input-container button:hover {
+    transform: scale(1.05);
+    background: #2563eb;
+}
+
+@media (min-width: 600px) {
+    .metrics-grid.mini {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

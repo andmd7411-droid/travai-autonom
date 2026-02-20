@@ -2,7 +2,6 @@ import { NavLink } from 'react-router-dom';
 import { Clock, Wallet, FileText, PieChart, Folder } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import '../styles/Navigation.css';
-import '../styles/Navigation.css'; // We'll create this or use inline/global
 
 const Navigation: React.FC = () => {
     const { t } = useLanguage();

@@ -14,19 +14,20 @@ import MileagePage from './pages/MileagePage';
 import JobsPage from './pages/JobsPage';
 import DailySummaryPage from './pages/DailySummaryPage';
 import SettingsPage from './pages/SettingsPage';
-import InvoicesPage from './pages/InvoicesPage';
-import InvoiceGenerator from './pages/InvoiceGenerator';
-import FinancialToolsPage from './pages/FinancialToolsPage';
+import InvoiceHub from './pages/InvoiceHub';
 import { LanguageProvider } from './context/LanguageContext';
+import { ThemeProvider } from './context/ThemeContext';
 import './styles/global.css';
 
 const App: React.FC = () => {
   return (
-    <LanguageProvider>
-      <Router>
-        <AppContent />
-      </Router>
-    </LanguageProvider>
+    <ThemeProvider>
+      <LanguageProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 };
 
@@ -52,10 +53,8 @@ const AppContent: React.FC = () => {
               <Route path="/mileage" element={<MileagePage />} />
               <Route path="/jobs" element={<JobsPage />} />
               <Route path="/daily-summary" element={<DailySummaryPage />} />
-              <Route path="/invoices" element={<InvoicesPage />} />
-              <Route path="/invoices/new" element={<InvoiceGenerator />} />
-              <Route path="/fin-tools" element={<FinancialToolsPage />} />
               <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/invoices" element={<InvoiceHub />} />
             </Routes>
           </AnimatePresence>
         </main>

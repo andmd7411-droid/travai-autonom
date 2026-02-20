@@ -31,6 +31,7 @@ export interface Expense {
     description?: string;
     receiptPhoto?: Blob;
     projectId?: number;
+    tags?: string[]; // #12 free tags
 }
 
 export interface DocumentItem {
@@ -113,4 +114,8 @@ export interface Job {
     address: string;
     status: 'scheduled' | 'completed' | 'cancelled';
     notes?: string;
+}
+export interface DailyNote {
+    date: string; // YYYY-MM-DD
+    content: string;
 }

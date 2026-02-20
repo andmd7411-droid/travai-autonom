@@ -3,6 +3,37 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Action buttons (camera + upload) */
+.doc-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+
+.doc-action-btn:active {
+    transform: scale(0.96);
+}
+
+.camera-btn {
+    background: linear-gradient(135deg, #14b8a6, #0d9488);
+    color: white;
+    box-shadow: 0 3px 10px rgba(20, 184, 166, 0.35);
 }
 
 .upload-btn {
@@ -11,38 +42,38 @@
     gap: 8px;
     background: var(--color-primary);
     color: white;
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: 20px;
     font-weight: 600;
-    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
-}
-
-.header-actions {
-    display: flex;
-    gap: 10px;
-}
-
-.invoice-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--color-secondary);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-weight: 600;
+    font-size: 0.9rem;
     border: none;
     cursor: pointer;
+    box-shadow: 0 3px 10px rgba(99, 102, 241, 0.3);
+    transition: transform 0.15s;
 }
 
-.quote-btn-purple {
-    background: #8b5cf6 !important;
+.upload-btn:active {
+    transform: scale(0.96);
 }
 
 .hidden-file-input {
     display: none;
 }
 
+/* Empty state */
+.docs-empty {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 3rem 1rem;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Grid */
 .docs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -114,4 +145,113 @@
     border-radius: 50%;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     opacity: 0.7;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+/* ─── Document Viewer Modal ─── */
+.doc-viewer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.doc-viewer-modal {
+    background: var(--color-surface);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.doc-viewer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.doc-viewer-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.doc-viewer-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.doc-viewer-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+
+.doc-viewer-btn:active {
+    transform: scale(0.96);
+}
+
+.pdf-btn {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+}
+
+.download-btn {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+}
+
+.close-btn {
+    background: rgba(0, 0, 0, 0.08);
+    color: var(--color-text-main);
+    padding: 0.45rem;
+}
+
+.doc-viewer-content {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+    min-height: 300px;
+}
+
+.doc-viewer-image {
+    max-width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+}
+
+.doc-viewer-iframe {
+    width: 100%;
+    height: 70vh;
+    border: none;
 }

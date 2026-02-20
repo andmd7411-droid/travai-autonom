@@ -8,8 +8,7 @@
     flex-direction: column;
     align-items: center;
     padding: 32px 16px;
-    background: white;
-    /* Fallback */
+    background: var(--color-surface);
     margin-bottom: 24px;
 }
 
@@ -48,7 +47,33 @@
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--color-success);
-    margin-bottom: 32px;
+    margin-bottom: 24px;
+}
+
+/* ─── Timer Controls ─── */
+.timer-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.timer-display.paused {
+    color: var(--color-warning);
+    opacity: 0.8;
+}
+
+.paused-badge {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    background: var(--color-warning);
+    color: white;
+    padding: 2px 7px;
+    border-radius: 20px;
+    vertical-align: middle;
 }
 
 .action-btn {
@@ -73,6 +98,19 @@
 .action-btn.stop {
     background: var(--color-danger);
     box-shadow: 0 10px 25px -5px var(--color-danger);
+}
+
+.action-btn.pause-btn {
+    width: 90px;
+    height: 90px;
+    font-size: 0.75rem;
+    background: var(--color-warning);
+    box-shadow: 0 6px 18px -4px var(--color-warning);
+}
+
+.action-btn.pause-btn.resume {
+    background: var(--color-success);
+    box-shadow: 0 6px 18px -4px var(--color-success);
 }
 
 .action-btn svg {
@@ -132,4 +170,13 @@
     border: none;
     color: #ff4d4d;
     cursor: pointer;
+}
+
+/* Adresse d'arrivée — couleur verte pour distinguer du départ */
+.history-location-end {
+    color: #10b981;
+}
+
+.history-location-end svg {
+    color: #10b981;
 }

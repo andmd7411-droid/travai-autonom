@@ -17,7 +17,12 @@
     padding-bottom: 1rem;
 }
 
-.icon-shield {
+.icon-shield,
+.icon-profile,
+.icon-data,
+.icon-tax,
+.icon-goal,
+.icon-palette {
     color: var(--color-primary);
 }
 
@@ -69,7 +74,7 @@
 
 .save-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(var(--color-primary-rgb), 0.3);
+    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
 }
 
 .app-version {
@@ -78,4 +83,184 @@
     padding: 1rem;
     color: var(--color-text-secondary);
     font-size: 0.8rem;
+}
+
+/* ─── Tax Preview ─── */
+.tax-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+}
+
+.tax-amount {
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+/* ─── Color Theme Swatches ─── */
+.color-theme-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 12px 0;
+}
+
+.color-swatch {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.color-swatch.active {
+    border-color: white;
+    transform: scale(1.15);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.color-swatch:hover {
+    transform: scale(1.1);
+}
+
+.theme-hint {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin-top: 8px;
+}
+
+/* ─── Settings Grid ─── */
+.settings-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ─── Language select ─── */
+.lang-select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--color-text-main);
+    font-size: 1rem;
+}
+
+/* ─── Data actions ─── */
+.data-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.data-action-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.data-action-item p {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+}
+
+.warning-text {
+    color: var(--color-danger) !important;
+}
+
+.export-btn,
+.import-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.export-btn:hover,
+.import-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* ─── Message toast ─── */
+.message-toast {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.2rem;
+    border-radius: 10px;
+    margin: 1rem auto;
+    max-width: 600px;
+    font-size: 0.9rem;
+}
+
+.message-toast.success {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.message-toast.error {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* ─── Form groups ─── */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--color-text-main);
+    font-size: 1rem;
+}
+
+.input-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 0 12px;
+}
+
+.input-with-icon input {
+    border: none;
+    background: transparent;
+    padding: 10px 0;
+    flex: 1;
 }

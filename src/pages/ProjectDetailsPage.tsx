@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
-import { ArrowLeft, Clock, DollarSign, PieChart as PieChartIcon, FileText } from 'lucide-react';
+import { ArrowLeft, Clock, DollarSign, PieChart as PieChartIcon } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { formatCurrency, formatDuration } from '../utils/format';
 import { BarChart, PieChart } from '../components/AnalyticsCharts';
@@ -94,9 +94,6 @@ const ProjectDetailsPage: React.FC = () => {
 
         const totalExp = Array.from(catMap.values()).reduce((a, b) => a + b, 0);
         const categories = Array.from(catMap.entries()).map(([cat, amount], index) => {
-            // Safe access using keyof checks or type assertion if strict
-            // t.categories is object of strings. cat is string.
-            // We can assume cat is one of the keys or fallback.
             const label = (t.categories as Record<string, string>)[cat] || cat;
             return {
                 category: label,
@@ -113,38 +110,17 @@ const ProjectDetailsPage: React.FC = () => {
 
     return (
         <div className="page-container project-details-page">
-            <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <button onClick={() => navigate(-1)} className="back-btn" aria-label={t.backToHome}>
-                        <ArrowLeft size={24} />
-                    </button>
-                    <div>
-                        <h2>
-                            <ProjectColorDot color={project.color} />
-                            {project.name}
-                        </h2>
-                        <p className="subtitle">{client?.name || t.notSpecified} • {project.status}</p>
-                    </div>
-                </div>
-                <button
-                    className="invoice-btn glass-panel"
-                    onClick={() => navigate(`/invoices/new?projectId=${id}`)}
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        padding: '10px 20px',
-                        borderRadius: '12px',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        cursor: 'pointer',
-                        background: 'var(--color-primary)',
-                        color: 'white',
-                        fontWeight: 600
-                    }}
-                >
-                    <FileText size={18} />
-                    <span>{t.createInvoice}</span>
+            <div className="page-header" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <button onClick={() => navigate(-1)} className="back-btn" aria-label={t.backToHome}>
+                    <ArrowLeft size={24} />
                 </button>
+                <div>
+                    <h2>
+                        <ProjectColorDot color={project.color} />
+                        {project.name}
+                    </h2>
+                    <p className="subtitle">{client?.name || t.notSpecified} • {project.status}</p>
+                </div>
             </div>
 
             <div className="stats-grid">

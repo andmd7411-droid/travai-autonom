@@ -1,8 +1,20 @@
-import { useState } from 'react';
-import { Shield, Lock, Save, CheckCircle, AlertCircle, Briefcase, Database, Download, Upload } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Shield, Lock, Save, CheckCircle, AlertCircle, Briefcase, Database, Download, Upload, Percent, Target, Palette } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { exportData, importData } from '../utils/backup';
 import '../styles/SettingsPage.css';
+
+const COLOR_THEMES = [
+    { name: 'Indigo', primary: '#6366f1', dark: '#4f46e5' },
+    { name: 'Bleu', primary: '#3b82f6', dark: '#2563eb' },
+    { name: 'Vert', primary: '#10b981', dark: '#059669' },
+    { name: 'Orange', primary: '#f59e0b', dark: '#d97706' },
+    { name: 'Rouge', primary: '#ef4444', dark: '#dc2626' },
+    { name: 'Rose', primary: '#ec4899', dark: '#db2777' },
+    { name: 'Teal', primary: '#14b8a6', dark: '#0d9488' },
+    { name: 'Violet', primary: '#8b5cf6', dark: '#7c3aed' },
+];
+
 
 const SettingsPage = () => {
     const { t, language, setLanguage } = useLanguage();
@@ -18,6 +30,31 @@ const SettingsPage = () => {
             logoUrl: ''
         };
     });
+
+    // Tax rates
+    const [taxRates, setTaxRates] = useState(() => {
+        const saved = localStorage.getItem('taxRates');
+        return saved ? JSON.parse(saved) : { tps: 5, tvq: 9.975 };
+    });
+
+    // Monthly revenue goal
+    const [monthlyGoal, setMonthlyGoal] = useState(() => {
+        return Number(localStorage.getItem('monthlyGoal') || 0);
+    });
+
+    const [selectedTheme, setSelectedTheme] = useState(() => {
+        return localStorage.getItem('colorTheme') || '#6366f1';
+    });
+
+    // Apply color theme
+    useEffect(() => {
+        const theme = COLOR_THEMES.find(t => t.primary === selectedTheme);
+        if (theme) {
+            document.documentElement.style.setProperty('--color-primary', theme.primary);
+            document.documentElement.style.setProperty('--color-primary-dark', theme.dark);
+            localStorage.setItem('colorTheme', theme.primary);
+        }
+    }, [selectedTheme]);
 
     const [currentPin, setCurrentPin] = useState('');
     const [newPin, setNewPin] = useState('');
@@ -55,6 +92,9 @@ const SettingsPage = () => {
     const handleSaveProfile = (e: React.FormEvent) => {
         e.preventDefault();
         localStorage.setItem('companyProfile', JSON.stringify(companyProfile));
+        // Save tax rates too
+        localStorage.setItem('taxRates', JSON.stringify(taxRates));
+        localStorage.setItem('monthlyGoal', monthlyGoal.toString());
         setMessage({ type: 'success', text: t.profileSaved });
     };
 
@@ -244,6 +284,89 @@ const SettingsPage = () => {
                             <span>{t.saveProfile}</span>
                         </button>
                     </form>
+                </div>
+
+                {/* Tax Rates Section */}
+                <div className="settings-section glass-panel">
+                    <div className="section-header">
+                        <Percent size={24} className="icon-tax" />
+                        <h3>Taux de Taxes</h3>
+                    </div>
+                    <div className="form-group">
+                        <label>TPS (%)</label>
+                        <input
+                            type="number"
+                            step="0.001"
+                            value={taxRates.tps}
+                            onChange={e => setTaxRates({ ...taxRates, tps: Number(e.target.value) })}
+                            title="TPS"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>TVQ (%)</label>
+                        <input
+                            type="number"
+                            step="0.001"
+                            value={taxRates.tvq}
+                            onChange={e => setTaxRates({ ...taxRates, tvq: Number(e.target.value) })}
+                            title="TVQ"
+                        />
+                    </div>
+                    <div className="tax-preview">
+                        <span>Sur 1 000 $ de revenus :</span>
+                        <span className="tax-amount">TPS: {(1000 * taxRates.tps / 100).toFixed(2)} $ · TVQ: {(1000 * taxRates.tvq / 100).toFixed(2)} $</span>
+                    </div>
+                    <button className="save-btn" onClick={() => { localStorage.setItem('taxRates', JSON.stringify(taxRates)); setMessage({ type: 'success', text: 'Taux sauvegardés.' }); }}>
+                        <Save size={18} />
+                        <span>Sauvegarder</span>
+                    </button>
+                </div>
+
+                {/* Financial Goal Section */}
+                <div className="settings-section glass-panel">
+                    <div className="section-header">
+                        <Target size={24} className="icon-goal" />
+                        <h3>Objectif Mensuel</h3>
+                    </div>
+                    <div className="form-group">
+                        <label>Objectif de revenus ($/mois)</label>
+                        <input
+                            type="number"
+                            min="0"
+                            step="100"
+                            value={monthlyGoal}
+                            onChange={e => setMonthlyGoal(Number(e.target.value))}
+                            placeholder="ex: 5000"
+                            title="Objectif mensuel"
+                        />
+                    </div>
+                    <button className="save-btn" onClick={() => { localStorage.setItem('monthlyGoal', monthlyGoal.toString()); setMessage({ type: 'success', text: 'Objectif sauvegardé.' }); }}>
+                        <Save size={18} />
+                        <span>Sauvegarder</span>
+                    </button>
+                </div>
+
+                {/* Color Theme Section */}
+                <div className="settings-section glass-panel">
+                    <div className="section-header">
+                        <Palette size={24} className="icon-palette" />
+                        <h3>Couleur du Thème</h3>
+                    </div>
+                    <div className="color-theme-grid">
+                        {COLOR_THEMES.map(theme => (
+                            <button
+                                key={theme.primary}
+                                className={`color-swatch ${selectedTheme === theme.primary ? 'active' : ''}`}
+                                style={{ background: theme.primary } as React.CSSProperties}
+                                onClick={() => setSelectedTheme(theme.primary)}
+                                title={theme.name}
+                                aria-label={theme.name}
+                            >
+                                {selectedTheme === theme.primary && <CheckCircle size={16} color="white" />}
+                            </button>
+                        ))}
+                    </div>
+                    <p className="theme-hint">La couleur s'applique immédiatement à toute l'application.</p>
                 </div>
 
                 {/* Data Management Section */}
